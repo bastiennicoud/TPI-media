@@ -1,0 +1,29 @@
+// -----------------------------------------------------------------------------
+// fonts.scss
+// Contient les appels a toutes les polices de caractére
+// -----------------------------------------------------------------------------
+
+@font-face {
+  font-family: 'Futura-medium';
+  font-weight: 400;
+  src: local('Futura medium'),
+       url('../fonts/futura-medium.woff2') format('woff2'),
+       url('../fonts/futura-medium.woff') format('woff'),
+       url('../fonts/futura-medium.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'DIN-alternate-light';
+  src: local('DIN Alternate Light'),
+       url('../fonts/din-alternate-light.woff2') format('woff2'),
+       url('../fonts/din-alternate-light.woff') format('woff'),
+       url('../fonts/din-alternate-light.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'DIN-alternate-medium';
+  src: local('DIN Alternate Medium'),
+       url('../fonts/din-alternate-medium.woff2') format('woff2'),
+       url('../fonts/din-alternate-medium.woff') format('woff'),
+       url('../fonts/din-alternate-medium.ttf') format('ttf');
+}

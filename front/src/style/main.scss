@@ -1,0 +1,21 @@
+// -----------------------------------------------------------------------------
+// main.scss
+// Ce fichier contient les différents appels au fichiers de styles
+// globeaux de l'application, il est ensuite compilé dans le doosier static
+// -----------------------------------------------------------------------------
+
+// normalize, est un fichier standardisé
+@import "normalize.scss";
+
+// vars contient toutes les valeurs globales à mon application
+// pour pouvoir les réutiliser dans les fichiers suivants
+@import "vars.scss";
+
+// fonts contient les imports des différentes polices de caractére du site
+@import "fonts.scss";
+
+// globals contient des régles communes a toute mon application
+@import "globals.scss";
+
+// grid contient un systéme de grille simple pour l'utilisation nésaisaire
+//@import "grid.scss";

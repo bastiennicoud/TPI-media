@@ -1,0 +1,31 @@
+// -----------------------------------------------------------------------------
+// vars.scss
+// Ce fichier contient toutes les valeurs globales a mon application,
+// il est importé dans chaque composant pour y rendre disponible les valeurs.
+// -----------------------------------------------------------------------------
+
+// Couleurs
+$blancFond: #f9f9f9; // Un blanc cassé pour le fond de l'applicatio
+$creme: #f4f4f4; // Declinaison creme du gris clair pour cotrester
+
+$grisClair: #e8ede9; // Gris clair du logo
+$grisFonce: #303030; // Gris foncé du logo (noir)
+
+$placehoders: #7f8c8d; // un gris spécifique pour les placeholders
+
+
+// Media queries
+$mobile: 600px; // Vise les ecrans en dessous de la valeur
+$tablet: 800px; // Vise les ecrans en dessous de la valeur
+$large:  960px; // Vise les écrans en dessus de la valeur
+
+// Marges et paddings
+$defaultMg: 10px; // Pour les marges et paddings par défault (utilisées entre autre pour la grille)
+$largeMG: $defaultMg*2; // Le double de la marge a défault, pour les éléments plus espacés
+
+// bordures
+$defaltBdr: 2px; // utilisé notemment pour les champs
+
+// durées de transition
+$long: 1s;
+$short: $long/2;

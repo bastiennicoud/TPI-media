@@ -1,0 +1,54 @@
+// -----------------------------------------------------------------------------
+// globlas.scss
+// Contient une série de régles globales a toute mon applications
+// -----------------------------------------------------------------------------
+
+// déclaration liées aux polices
+*{
+  font-family: 'DIN-alternate-light';
+  font-size: 18px;
+  color: $grisFonce;
+}
+
+html{
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+strong{
+  font-family: 'DIN-alternate-medium';
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Futura-medium';
+  font-weight: 400;
+}
+
+h1{
+  font-size: 36px;
+}
+
+a{
+  transition: color $short;
+}
+
+p{
+  margin: 3px 0px;
+  color: $grisFonce;
+}
+
+input{
+  font-family: 'DIN-alternate-light';
+}
+
+textarea{
+  font-family: 'DIN-alternate-light';
+}
+
+button{
+  font-family: 'DIN-alternate-medium';
+}
