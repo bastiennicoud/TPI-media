@@ -66,7 +66,7 @@ class UsersauthController extends Controller
    *
    * @return Response
    */
-  public function register(Request $request) {
+  public function login(Request $request) {
 
     // appel de la fonction de connexion de laravel
 

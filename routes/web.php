@@ -11,9 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-  return view('index');
-});
+Route::get('/', function () { return view('index'); });
+Route::get('lastposts', function () { return view('index'); });
+Route::get('newpost', function () { return view('index'); });
+Route::get('myposts', function () { return view('index'); });
+Route::get('login', function () { return view('index'); });
+Route::get('register', function () { return view('index'); });
+Route::get('post', function () { return view('index'); });
+Route::get('myprofile', function () { return view('index'); });
+
 
 Route::group(['prefix' => 'rest'], function () {
 
