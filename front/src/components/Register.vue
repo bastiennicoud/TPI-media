@@ -33,7 +33,7 @@
 
           <div class="input-group" :class="status.email">
             <label for="email">Une adresse e-mail valide</label>
-            <input id="email" type="text" name="email" v-model="form.email" placeholder="E-mail">
+            <input id="email" type="email" name="email" v-model="form.email" placeholder="E-mail">
           </div>
 
           <div class="input-group" :class="status.password">
@@ -107,6 +107,7 @@
           if(response.body == true){
             this.fails = "false"
             this.messages.push('Votre inscription à bien été enregistrée.')
+            window.location.href = '/lastposts'
           } else {
             this.fails = "true"
             for(let error in response.data){
@@ -117,8 +118,9 @@
 
         }, (response) => {
 
+          this.messages = []
           console.log('Erreur lors de la requète au serveur')
-          this.errors.push('Erreur lors de la requète.')
+          this.messages.push('Erreur lors de la requète.')
 
         })
 
