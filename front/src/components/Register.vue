@@ -15,9 +15,14 @@
 
         <div class="post-datas">
 
-          <div class="errorsmessage">
+          <div v-if="fails == 'true'" class="errorsmessage">
             <ul>
-              <li v-for="error in errors">{{ error }}</li>
+              <li v-for="message in messages">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="fails == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messages">{{ message }}</li>
             </ul>
           </div>
 
@@ -44,11 +49,6 @@
           <div class="input-group input-group-lg">
             <button type="button" name="submit" v-on:click="submit">Valider</button>
           </div>
-
-          {{form.name}}
-          {{form.email}}
-          {{form.password}}
-          {{form.password_confirmation}}
 
         </div>
 
@@ -79,7 +79,8 @@
           password: "nosubmit",
           password_confirmation: "nosubmit"
         },
-        errors: []
+        fails: "nosubmit",
+        messages: []
       }
     },
     methods: {
@@ -101,18 +102,23 @@
           // s'execute si l'appel fonctionne bien
           console.log(response)
 
-          this.status.errors = []
-          for(let error in response.data){
-            this.status.errors.push(response.data[error][0])
+          this.messages = []
+
+          if(response.body == true){
+            this.fails = "false"
+            this.messages.push('Votre inscription à bien été enregistrée.')
+          } else {
+            this.fails = "true"
+            for(let error in response.data){
+              this.messages.push(response.data[error][0])
+            }
           }
 
 
         }, (response) => {
 
-          // renvoie une erreur si l'appel a échoué
-          //this.state.errors = []
           console.log('Erreur lors de la requète au serveur')
-          //this.state.errors.push('Erreur lors de la requète.')
+          this.errors.push('Erreur lors de la requète.')
 
         })
 
@@ -165,7 +171,35 @@
           // design des champs a remplir
 
           .errorsmessage{
-            background-color: red;
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
+
+          .successmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
           }
 
           .input-group{
