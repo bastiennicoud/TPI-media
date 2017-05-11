@@ -15,9 +15,15 @@
 
         <div class="post-datas">
 
-          <div class="input-group" :class="status.username">
+          <div class="errorsmessage">
+            <ul>
+              <li v-for="error in errors">{{ error }}</li>
+            </ul>
+          </div>
+
+          <div class="input-group" :class="status.name">
             <label for="username">C'est ce nom qui sera visible sur le site</label>
-            <input id="username" type="text" name="username" v-model="form.username" placeholder="Nom d'utilisateur">
+            <input id="username" type="text" name="username" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group" :class="status.email">
@@ -39,7 +45,7 @@
             <button type="button" name="submit" v-on:click="submit">Valider</button>
           </div>
 
-          {{form.username}}
+          {{form.name}}
           {{form.email}}
           {{form.password}}
           {{form.password_confirmation}}
@@ -62,13 +68,13 @@
     data () {
       return {
         form: {
-          username: "",
+          name: "",
           email: "",
           password: "",
           password_confirmation: ""
         },
         status: {
-          username: "nosubmit",
+          name: "nosubmit",
           email: "nosubmit",
           password: "nosubmit",
           password_confirmation: "nosubmit"
@@ -85,7 +91,7 @@
         this.$http.post('/rest/register', {
 
           // les différentes valeurs a transmetre
-          username: this.form.username,
+          name: this.form.name,
           email: this.form.email,
           password: this.form.password,
           password_confirmation: this.form.password_confirmation
@@ -95,7 +101,10 @@
           // s'execute si l'appel fonctionne bien
           console.log(response)
 
-
+          this.status.errors = []
+          for(let error in response.data){
+            this.status.errors.push(response.data[error][0])
+          }
 
 
         }, (response) => {
@@ -154,6 +163,11 @@
           background-color: $creme;
 
           // design des champs a remplir
+
+          .errorsmessage{
+            background-color: red;
+          }
+
           .input-group{
             box-sizing: border-box;
             width: 100%;
