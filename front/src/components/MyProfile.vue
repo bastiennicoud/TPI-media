@@ -183,7 +183,7 @@
           email: this.form.email
 
         }/*, {emulateJSON:true}*/).then((response) => {
-console.log(response);
+
           // s'execute si l'appel fonctionne bien
           this.messagesEmail = []
 
@@ -211,6 +211,41 @@ console.log(response);
         })
       },
       submitPassword() {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.post('/rest/modifypass', {
+
+          // les différentes valeurs a transmetre
+          password_old: this.form.password_old,
+          password: this.form.password,
+          password_confirmation: this.form.password_confirmation,
+
+        }/*, {emulateJSON:true}*/).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          this.messagesPassword = []
+
+          // si les infos on bien été mises a jour
+          if(response.body.permission == true){
+            // changement de couleur pour la zonne d'erreurs
+            this.failsPassword = "false"
+            // liste tous les messages renvoyés par le serveur
+            for(let error in response.data.messages){
+              this.messagesPassword.push(response.data.messages[error])
+            }
+          } else {
+            // si le nouveau nom n'est pas accepté
+            this.failsPassword = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.data.messages){
+              this.messagesPassword.push(response.data.messages[error][0])
+            }
+          }
+        }, (response) => {
+          // si la requete au serveur a échoué
+          this.messagesPassword = []
+          console.log('Le serveur est momentanément indisponible')
+          this.messagesPassword.push('Erreur lors de la requète.')
+        })
       },
     }
   }

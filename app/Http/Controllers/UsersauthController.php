@@ -1,5 +1,12 @@
 <?php
 
+// -----------------------------------------------------------------------------
+// UsersauthController
+//
+// Ce controller contient toutes les methodes qui on attrait a la gestion de l'utilisateur
+// Création, Connexion, Modification, deconnexion
+// -----------------------------------------------------------------------------
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -301,7 +308,7 @@ class UsersauthController extends Controller
       if($validator->fails()){
         // si elle a échoué, on renvoie les erreurs au client
         $userupdate = [
-          'permission' => true,
+          'permission' => false,
           'messages' => $validator->messages()
         ];
         return response()->json($userupdate);
@@ -321,9 +328,9 @@ class UsersauthController extends Controller
         } else {
           // si l'ancien mot de passe n'est pas le bon
           $userupdate = [
-            'permission' => true,
+            'permission' => false,
             'messages' => [
-              'update' => "Vous n'avez pas rentré votre mot de passe actuel correctement."
+              'update' => [0 => "Vous n'avez pas rentré votre mot de passe actuel correctement."]
             ]
           ];
           return response()->json($userupdate);
