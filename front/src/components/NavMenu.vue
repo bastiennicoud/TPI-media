@@ -43,7 +43,7 @@
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouveau post</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes posts</router-link></li>
           <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon Profile</router-link></li>
-          <li v-if="userConnected"><router-link to="/post/3" v-on:click.native="toggle">Deconnexion</router-link></li>
+          <li v-if="userConnected"><a v-on:click.prevent="disconnect">Deconnexion</a></li>
         </ul>
       </div>
     </div>
@@ -70,10 +70,41 @@
         } else {
           this.open = false
         }
+      },
+      // cette methode est appelée lorsque l'on clique sur le bouton de déconnexio
+      disconnect () {
+        this.$http.post('/rest/logout').then((response) => {
+
+          // si un utilisateur a bien été deconnecté
+          if(response.body == true){
+            // on va modifier l'etat global de vue js pour y supprimer les infos liées a l'utilisateur
+            // j'utilise les mutations pour effectuer les changements de state
+            // les muttations sont définiees dans le stores/AppStore.js
+            this.$store.commit('USER_DISCONNECT')
+            this.$store.commit('USER_SETNAME', '')
+            this.$store.commit('USER_SETPHOTO', '')
+            this.$store.commit('USER_SETROLE', '')
+
+            // je redirige l'utilisateur a la page d'acceuil
+            this.$router.push('/')
+            // methode toggle pour fermer le menu
+            this.toggle()
+          } else {
+            // si la deconnexion n'a pas fonctionné
+            this.$router.push('/')
+            console.log("Vous n'avez pas pu etre déconnecté")
+          }
+
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
       }
     },
     computed: {
-      // les propriétées suivantes sont issues du state global de l'application
+      // les proprietées suivantes sont issues du state global de l'application
       // je vais chercher les valeurs avec les getters dans le $store
       // ses getters sont définis dans le fichier AppStore.js
       userConnected () {

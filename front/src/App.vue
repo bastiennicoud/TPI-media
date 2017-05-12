@@ -36,7 +36,37 @@
   export default {
     store: store,
     name: 'app',
-    components: { headerLogo, navMenu, darkFooter }
+    components: { headerLogo, navMenu, darkFooter },
+    created () {
+      // lorsque le composant est crée par vue js, j'effectue un appel ajax au serveur pour savoir
+      // si un utilisateur est actuellement connecté
+
+      // appel ajax en POST grace a Vue-Resource
+      this.$http.post('/rest/user').then((response) => {
+
+        // si un utilisateur est bien connecté
+        if(response.body.connected == true){
+          // on va modifier l'etat global de vue js pour y injecter les infos du nouvel utilisateur
+          // j'utilise les mutations pour effectuer les changements de state
+          // les muttations sont définiees dans le stores/AppStore.js
+          this.$store.commit('USER_CONNECT')
+          this.$store.commit('USER_SETNAME', response.body.username)
+          this.$store.commit('USER_SETPHOTO', response.body.userimage)
+          this.$store.commit('USER_SETROLE', response.body.userrole)
+        } else {
+          // si aucun utilisateur n'est connecté
+          // on mute notre state pour que tous les composant s'adapte
+          this.$store.commit('USER_DISCONNECT')
+        }
+
+
+      }, (response) => {
+
+        console.log('Erreur lors de la requète au serveur')
+
+      })
+
+    }
   }
 </script>
 
