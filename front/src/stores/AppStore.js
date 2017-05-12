@@ -1,6 +1,6 @@
 // ce fichier permet de définir le store de mon application vue.js
 // le store est un objet global qui va contenir différentes propriétés
-// et variables qui vont etre accesible par tous les composants de l'application
+// qui vont etre accesible par tous les composants de l'application
 
 import Vuex from 'vuex'
 
@@ -36,11 +36,14 @@ export default new Vuex.Store({
   },
   // definition des getters
   // les getters von permetre d'obtenir certaines proprietes du state facilement
+  // depuis nimporte quel composant
   getters: {
     userConnected: state => state.user.connected,
     userName: state => state.user.name,
     userRole: state => state.user.role,
     userPhoto: state => state.user.photo
   },
+  // les actions permettent d'utiliser plus facilement les mutations
+  // je n'en utilise pas dans mon cas
   actions: {}
 })
