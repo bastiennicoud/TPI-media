@@ -161,6 +161,7 @@
 
       // les 2 icones du menu (photo de profile et burger menu)
       #menu{
+        height: 50px;
         display: flex;
         justify-content: flex-end;
 

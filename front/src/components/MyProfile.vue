@@ -101,6 +101,27 @@
 
         </div>
 
+        <!-- Ajout d'une photo de profil -->
+        <div class="post-datas">
+          <p id="label-drag-n-drop">Ajoutez une belle photo de profile (max 1000 par 1000px)</p>
+
+          <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
+          <vue-clip id="drag-n-drop" :options="options">
+            <template slot="clip-uploader-action">
+              <div>
+                <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
+              </div>
+            </template>
+
+            <template slot="clip-uploader-body" scope="props">
+              <div v-for="file in props.files">
+                <img v-bind:src="file.dataUrl" />
+              </div>
+            </template>
+
+          </vue-clip>
+        </div>
+
       </div>
 
     </div>
@@ -129,6 +150,11 @@
         messagesEmail: [],
         failsPassword: "nosubmit",
         messagesPassword: [],
+        // options liées a l'utilisation de vue.clip (upload en drag n drop)
+        options: {
+          url: '/upload',
+          paramName: 'file'
+        }
       }
     },
     methods: {
@@ -432,6 +458,23 @@
                 background-color: $grisFonce;
               }
             }
+          }
+          #label-drag-n-drop{
+            margin: 10px 10px 0px 10px;
+            font-family: 'DIN-alternate-medium';
+            color: $placehoders;
+          }
+
+          #drag-n-drop{
+            box-sizing: border-box;
+            width: 100%;
+            height: 100px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            background-color: $grisClair;
+
+            border: 1px dashed $grisFonce;
           }
         }
       }
