@@ -25,18 +25,33 @@
             <input id="email" type="text" name="email" placeholder="E-mail">
           </div>
 
+          <div class="input-group input-group-lg">
+            <button type="button" name="submitinfos">Modifier les informations</button>
+          </div>
+
+        </div>
+
+        <h2>Modifier votre mot de passe</h2>
+
+        <div class="post-datas">
+
+          <div class="input-group">
+            <label for="password">Votre actuel mot de passe</label>
+            <input id="password" type="password" name="password" placeholder="Mot de passe">
+          </div>
+
           <div class="input-group">
             <label for="password">Nouveau mot de passe (8 caractéres minimum)</label>
             <input id="password" type="password" name="password" placeholder="Mot de passe">
           </div>
 
           <div class="input-group">
-            <label for="passwordconfirm">Confirmez votre mot de passe</label>
+            <label for="passwordconfirm">Confirmez votre nouveau mot de passe</label>
             <input id="passwordconfirm" type="password" name="passwordconfirm" placeholder="Mot de passe">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submit">Modifier les informations</button>
+            <button type="button" name="submitpassword">Modifier le mot de passe</button>
           </div>
 
         </div>
@@ -53,7 +68,19 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'myProfile'
+    name: 'myProfile',
+    data () {
+      return {
+        form: {
+          name: "",
+          password: ""
+        },
+        fails: "nosubmit",
+        messages: []
+      }
+    },
+    methods: {
+    }
   }
 </script>
 
@@ -84,7 +111,12 @@
 
         h1{
           width: 100%;
-          margin: 10px 10px;
+          margin: 10px;
+        }
+
+        h2{
+          width: 100%;
+          margin: 10px;
         }
 
         .post-datas{

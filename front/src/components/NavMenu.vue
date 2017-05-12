@@ -18,7 +18,8 @@
 
         <!-- Image du profile affichée dans la navigation si la personne est connectée -->
         <router-link v-if="userConnected" id="profilename" :to="{name: 'MyProfile'}">{{userName}}</router-link>
-        <img  v-if="userConnected" id="profile" v-bind:src="userPhoto" alt="Photo de profile lego">
+        <router-link v-if="userConnected"  :to="{name: 'MyProfile'}"><img  id="profile" v-bind:src="userPhoto" alt="Photo de profile " v-bind:alt="userName"></router-link>
+
 
         <!-- Menu burger -->
         <div id="burger" v-on:click="toggle" :class="{opened: open, closed: !open}">
