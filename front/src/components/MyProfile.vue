@@ -19,22 +19,22 @@
 
           <div v-if="failsName == 'true'" class="errorsmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesName">{{ message }}</li>
             </ul>
           </div>
           <div v-else-if="failsName == 'false'" class="successmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesName">{{ message }}</li>
             </ul>
           </div>
 
           <div class="input-group">
             <label for="name">Nouveau nom d'utilisateur</label>
-            <input id="name" type="text" name="name" placeholder="Nom d'utilisateur">
+            <input id="name" type="text" name="name" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submitname">Modifier mon nom d'utiliateur</button>
+            <button type="button" name="submitname" v-on:click="submitName">Modifier mon nom d'utiliateur</button>
           </div>
 
         </div>
@@ -43,24 +43,24 @@
 
         <div class="post-datas">
 
-          <div v-if="failsName == 'true'" class="errorsmessage">
+          <div v-if="failsEmail == 'true'" class="errorsmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesEmail">{{ message }}</li>
             </ul>
           </div>
-          <div v-else-if="failsName == 'false'" class="successmessage">
+          <div v-else-if="failsEmail == 'false'" class="successmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesEmail">{{ message }}</li>
             </ul>
           </div>
 
           <div class="input-group">
             <label for="email">Nouvel e-mail</label>
-            <input id="email" type="text" name="email" placeholder="E-mail">
+            <input id="email" type="text" name="email" v-model="form.email" placeholder="E-mail">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submitemail">Modifier mon e-mail.</button>
+            <button type="button" name="submitemail" v-on:click="submitEmail">Modifier mon e-mail.</button>
           </div>
 
         </div>
@@ -69,34 +69,34 @@
 
         <div class="post-datas">
 
-          <div v-if="failsName == 'true'" class="errorsmessage">
+          <div v-if="failsPassword == 'true'" class="errorsmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesPassword">{{ message }}</li>
             </ul>
           </div>
-          <div v-else-if="failsName == 'false'" class="successmessage">
+          <div v-else-if="failsPassword == 'false'" class="successmessage">
             <ul>
-              <li v-for="message in messages">{{ messageName }}</li>
+              <li v-for="message in messagesPassword">{{ message }}</li>
             </ul>
           </div>
 
           <div class="input-group">
             <label for="password_old">Votre actuel mot de passe</label>
-            <input id="password_old" type="password" name="password_old" placeholder="Mot de passe">
+            <input id="password_old" type="password" name="password_old" v-model="form.password_old" placeholder="Mot de passe">
           </div>
 
           <div class="input-group">
             <label for="password">Nouveau mot de passe (8 caractéres minimum)</label>
-            <input id="password" type="password" name="password" placeholder="Mot de passe">
+            <input id="password" type="password" name="password" v-model="form.password" placeholder="Mot de passe">
           </div>
 
           <div class="input-group">
             <label for="password_confirmation">Confirmez votre nouveau mot de passe</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Mot de passe">
+            <input id="password_confirmation" type="password" name="password_confirmation" v-model="form.password_confirmation" placeholder="Mot de passe">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submitpassword">Modifier le mot de passe</button>
+            <button type="button" name="submitpassword" v-on:click="submitPassword">Modifier le mot de passe</button>
           </div>
 
         </div>
@@ -132,6 +132,86 @@
       }
     },
     methods: {
+      submitName () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.post('/rest/modifyname', {
+
+          // les différentes valeurs a transmetre
+          name: this.form.name
+
+        }/*, {emulateJSON:true}*/).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          this.messagesName = []
+
+          // si les infos on bien été mises a jour
+          if(response.body.permission == true){
+            // changement de couleur pour la zonne d'erreurs
+            this.failsName = "false"
+            // liste tous les messages renvoyés par le serveur
+            for(let error in response.data.messages){
+              this.messagesName.push(response.data.messages[error])
+            }
+
+            // on va modifier l'etat global de vue js pour y injecter les infos du nouvel utilisateur
+            // j'utilise les mutations pour effectuer les changements de state
+            // les muttations sont définiees dans le stores/AppStore.js
+            this.$store.commit('USER_SETNAME', this.form.name)
+
+            // je redirige l'utilisateur a la page d'acceuil
+            //this.$router.push('/')
+          } else {
+            // si le nouveau nom n'est pas accepté
+            this.failsName = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.data.messages){
+              this.messagesName.push(response.data.messages[error][0])
+            }
+          }
+        }, (response) => {
+          // si la requete au serveur a échoué
+          this.messagesName = []
+          console.log('Le serveur est momentanément indisponible')
+          this.messagesName.push('Erreur lors de la requète.')
+        })
+      },
+      submitEmail() {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.post('/rest/modifyemail', {
+
+          // les différentes valeurs a transmetre
+          email: this.form.email
+
+        }/*, {emulateJSON:true}*/).then((response) => {
+console.log(response);
+          // s'execute si l'appel fonctionne bien
+          this.messagesEmail = []
+
+          // si les infos on bien été mises a jour
+          if(response.body.permission == true){
+            // changement de couleur pour la zonne d'erreurs
+            this.failsEmail = "false"
+            // liste tous les messages renvoyés par le serveur
+            for(let error in response.data.messages){
+              this.messagesEmail.push(response.data.messages[error])
+            }
+          } else {
+            // si le nouveau nom n'est pas accepté
+            this.failsEmail = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.data.messages){
+              this.messagesEmail.push(response.data.messages[error][0])
+            }
+          }
+        }, (response) => {
+          // si la requete au serveur a échoué
+          this.messagesEmail = []
+          console.log('Le serveur est momentanément indisponible')
+          this.messagesEmail.push('Erreur lors de la requète.')
+        })
+      },
+      submitPassword() {
+      },
     }
   }
 </script>

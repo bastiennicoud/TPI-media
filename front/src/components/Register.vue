@@ -123,9 +123,6 @@
           this.messages.push('Erreur lors de la requète.')
 
         })
-
-
-
       }
     }
   }
