@@ -68,8 +68,33 @@ class UsersauthController extends Controller
    */
   public function login(Request $request) {
 
-    // appel de la fonction de connexion de laravel
+    // appel de la facade de connexion de laravel
+    return response()->json(Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')]));
 
+  }
+
+  /**
+   * Methode chargée de verifier si un utilisateur est connecté
+   *
+   * @return Response
+   */
+  public function logged(Request $request) {
+
+    // appel de la facade de verification si l'utilisateur est connecté
+    return response()->json(Auth::check());
+
+  }
+
+  /**
+   * Methode chargée de déconnecter un utilisateur
+   *
+   * @return Response
+   */
+  public function logout(Request $request) {
+
+    // appel de la facade de deconnexion de laravel
+    Auth::logout();
+    return response()->json(true);
 
   }
 

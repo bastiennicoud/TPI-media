@@ -15,18 +15,33 @@
 
         <div class="post-datas">
 
+          <div v-if="fails == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messages">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="fails == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messages">{{ message }}</li>
+            </ul>
+          </div>
+
           <div class="input-group">
             <label for="username">Votre nom d'utilisateur</label>
-            <input id="username" type="text" name="username" placeholder="Nom d'utilisateur">
+            <input id="username" type="text" name="username" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group">
             <label for="password">Votre mot de passe</label>
-            <input id="password" type="password" name="password" placeholder="Mot de passe">
+            <input id="password" type="password" name="password" v-model="form.password" placeholder="Mot de passe">
           </div>
 
+          <!--<div class="input-group">
+            <input id="remember" type="checkbox" name="remember" v-model="form.remember">Se souvenir de moi</input>
+          </div>-->
+
           <div class="input-group input-group-lg">
-            <button type="button" name="submit">Valider</button>
+            <button type="button" name="submit" v-on:click="submit">Valider</button>
           </div>
 
         </div>
@@ -43,7 +58,58 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'login'
+    name: 'login',
+    data () {
+      return {
+        form: {
+          name: "",
+          password: ""
+        },
+        fails: "nosubmit",
+        messages: []
+      }
+    },
+    methods: {
+      submit () {
+        console.log('La methode est appelée');
+
+
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.post('/rest/login', {
+
+          // les différentes valeurs a transmetre
+          name: this.form.name,
+          password: this.form.password
+
+        }/*, {emulateJSON:true}*/).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          console.log(response)
+
+          this.messages = []
+
+          if(response.body == true){
+            this.fails = "false"
+            this.messages.push('Vous avec correctement été connectés.')
+            window.location.href = '/lastposts'
+          } else {
+            this.fails = "true"
+            this.messages.push('Les informations renseignées sont erronées')
+          }
+
+
+        }, (response) => {
+
+          this.messages = []
+          console.log('Erreur lors de la requète au serveur')
+          this.messages.push('Erreur lors de la requète.')
+
+        })
+
+
+
+      }
+    }
   }
 </script>
 
@@ -85,6 +151,38 @@
           align-content: flex-start;
 
           background-color: $creme;
+
+          .errorsmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
+
+          .successmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
 
           // design des champs a remplir
           .input-group{
