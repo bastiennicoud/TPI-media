@@ -30,7 +30,11 @@
   import navMenu from './components/NavMenu.vue'
   import darkFooter from './components/DarkFooter.vue'
 
+  // importation du store global de l'application
+  import store from './stores/AppStore.js'
+
   export default {
+    store: store,
     name: 'app',
     components: { headerLogo, navMenu, darkFooter }
   }

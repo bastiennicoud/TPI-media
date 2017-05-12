@@ -61,6 +61,8 @@ class UsersauthController extends Controller
 
   }
 
+
+
   /**
    * Methode chargée de connecter un utilisateur
    *
@@ -69,9 +71,24 @@ class UsersauthController extends Controller
   public function login(Request $request) {
 
     // appel de la facade de connexion de laravel
-    return response()->json(Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')]));
+    if(Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')])){
+      $userinfos = [
+        'connected' => true,
+        'username' =>  Auth::user()->name,
+        'userimage' =>  Auth::user()->image,
+        'userrole' =>  Auth::user()->role
+      ];
+      return response()->json($userinfos);
+    } else {
+      $userinfos = [
+        'connected' => false
+      ];
+      return response()->json($userinfos);
+    }
 
   }
+
+
 
   /**
    * Methode chargée de verifier si un utilisateur est connecté
@@ -84,6 +101,37 @@ class UsersauthController extends Controller
     return response()->json(Auth::check());
 
   }
+
+
+
+  /**
+   * Methode chargée de retourner les infos générales liées a l'utilisateur
+   *
+   * @return Response
+   */
+  public function user(Request $request) {
+
+    // On va récuperer les infos de l'utilisateur
+    if(Auth::check()){
+      $userinfos = [
+        'connected' => true,
+        'username' =>  $request->user()->name,
+        'userimage' =>  $request->user()->image,
+        'userrole' =>  $request->user()->role
+      ];
+    } else {
+      $userinfos = [
+        'connected' => false,
+        'username' =>  '',
+        'userimage' =>  '/ressources/profilephotos/default.png',
+        'userrole' =>  3
+      ];
+    }
+    return response()->json($userinfos);
+
+  }
+
+
 
   /**
    * Methode chargée de déconnecter un utilisateur

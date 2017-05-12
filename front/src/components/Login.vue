@@ -71,8 +71,7 @@
     },
     methods: {
       submit () {
-        console.log('La methode est appelée');
-
+        //console.log('La methode est appelée');
 
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/login', {
@@ -84,19 +83,31 @@
         }/*, {emulateJSON:true}*/).then((response) => {
 
           // s'execute si l'appel fonctionne bien
-          console.log(response)
+          //console.log(response)
 
           this.messages = []
 
-          if(response.body == true){
+          // si le serveur repond que l'utilisateur a été correctement connecté
+          if(response.body.connected == true){
+            // on affiche le message de réussite
             this.fails = "false"
             this.messages.push('Vous avec correctement été connectés.')
-            window.location.href = '/lastposts'
+
+            // on va modifier l'etat global de vue js pour y injecter les infos du nouvel utilisateur
+            // j'utilise les mutations pour effectuer les changements de state
+            // les muttations sont définiees dans le stores/AppStore.js
+            this.$store.commit('USER_CONNECT')
+            this.$store.commit('USER_SETNAME', response.body.username)
+            this.$store.commit('USER_SETPHOTO', response.body.userimage)
+            this.$store.commit('USER_SETROLE', response.body.userrole)
+
+            // je redirige l'utilisateur a la page d'acceuil
+            this.$router.push('/')
+            
           } else {
             this.fails = "true"
             this.messages.push('Les informations renseignées sont erronées')
           }
-
 
         }, (response) => {
 

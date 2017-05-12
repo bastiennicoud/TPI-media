@@ -26,6 +26,7 @@ Route::group(['prefix' => 'rest'], function () {
   Route::post('register', 'UsersauthController@register');
   Route::post('login', 'UsersauthController@login');
   Route::post('logged', 'UsersauthController@logged');
+  Route::post('user', 'UsersauthController@user');
   Route::post('logout', 'UsersauthController@logout');
 
 });

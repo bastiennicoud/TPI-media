@@ -107,7 +107,7 @@
           if(response.body == true){
             this.fails = "false"
             this.messages.push('Votre inscription à bien été enregistrée.')
-            window.location.href = '/login'
+            this.$router.push('/login')
           } else {
             this.fails = "true"
             for(let error in response.data){

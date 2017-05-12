@@ -17,7 +17,8 @@
       <div id="menu">
 
         <!-- Image du profile affichée dans la navigation si la personne est connectée -->
-        <img id="profile" src="/ressources/profilephotos/lego.jpg" alt="Photo de profile lego">
+        <router-link v-if="userConnected" id="profilename" :to="{name: 'MyProfile'}">{{userName}}</router-link>
+        <img  v-if="userConnected" id="profile" v-bind:src="userPhoto" alt="Photo de profile lego">
 
         <!-- Menu burger -->
         <div id="burger" v-on:click="toggle" :class="{opened: open, closed: !open}">
@@ -35,14 +36,14 @@
     <div id="navmobile" :class="{opened: open, closed: !open}">
       <div class="container-nav">
         <ul>
-          <li><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
-          <li><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscrivez-vous</router-link></li>
           <li class="onlysmall"><router-link :to="{name: 'Home'}" v-on:click.native="toggle">Acceuil</router-link></li>
           <li class="onlysmall"><router-link :to="{name: 'LastPosts'}" v-on:click.native="toggle">Derniers posts</router-link></li>
-          <li><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouveau post</router-link></li>
-          <li><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes Articles</router-link></li>
-          <li><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon Profile</router-link></li>
-          <li><router-link to="/post/3" v-on:click.native="toggle">Deconnexion</router-link></li>
+          <li v-if="!userConnected"><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
+          <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscrivez-vous</router-link></li>
+          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouveau post</router-link></li>
+          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes posts</router-link></li>
+          <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon Profile</router-link></li>
+          <li v-if="userConnected"><router-link to="/post/3" v-on:click.native="toggle">Deconnexion</router-link></li>
         </ul>
       </div>
     </div>
@@ -69,6 +70,23 @@
         } else {
           this.open = false
         }
+      }
+    },
+    computed: {
+      // les propriétées suivantes sont issues du state global de l'application
+      // je vais chercher les valeurs avec les getters dans le $store
+      // ses getters sont définis dans le fichier AppStore.js
+      userConnected () {
+        return this.$store.getters.userConnected
+      },
+      userName () {
+        return this.$store.getters.userName
+      },
+      userPhoto () {
+        return this.$store.getters.userPhoto
+      },
+      userRole () {
+        return this.$store.getters.userRole
       }
     }
   }
@@ -113,6 +131,11 @@
       #menu{
         display: flex;
         justify-content: flex-end;
+
+        #profilename{
+          margin: auto 10px;
+        }
+
         #profile{
           height: 50px;
           width: 50px;

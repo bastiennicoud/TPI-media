@@ -9,11 +9,13 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import VueClip from 'vue-clip'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 
 // j'indique a vue de charger les librairies préalablement chargées
 Vue.use(VueResource)
 Vue.use(VueClip)
+Vue.use(Vuex)
 Vue.use(VueRouter)
 
 // point de configuration
