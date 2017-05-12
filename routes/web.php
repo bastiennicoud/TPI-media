@@ -28,7 +28,8 @@ Route::group(['prefix' => 'rest'], function () {
   Route::post('logged', 'UsersauthController@logged');
   Route::post('user', 'UsersauthController@user');
   Route::post('logout', 'UsersauthController@logout');
-  Route::post('modifyinfos', 'UsersauthController@modifyinfos');
+  Route::post('modifyname', 'UsersauthController@modifyname');
+  Route::post('modifyemail', 'UsersauthController@modifyemail');
   Route::post('modifypass', 'UsersauthController@modifypass');
 
 });

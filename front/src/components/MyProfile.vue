@@ -13,11 +13,45 @@
 
         <h1>Mes informations</h1>
 
+        <h2>Modifier votre nom d'utilisateur</h2>
+
         <div class="post-datas">
 
+          <div v-if="failsName == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsName == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
+          </div>
+
           <div class="input-group">
-            <label for="username">Nouveau nom d'utilisateur</label>
-            <input id="username" type="text" name="username" placeholder="Nom d'utilisateur">
+            <label for="name">Nouveau nom d'utilisateur</label>
+            <input id="name" type="text" name="name" placeholder="Nom d'utilisateur">
+          </div>
+
+          <div class="input-group input-group-lg">
+            <button type="button" name="submitname">Modifier mon nom d'utiliateur</button>
+          </div>
+
+        </div>
+
+        <h2>Modifier votre e-mail</h2>
+
+        <div class="post-datas">
+
+          <div v-if="failsName == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsName == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
           </div>
 
           <div class="input-group">
@@ -26,7 +60,7 @@
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submitinfos">Modifier les informations</button>
+            <button type="button" name="submitemail">Modifier mon e-mail.</button>
           </div>
 
         </div>
@@ -35,9 +69,20 @@
 
         <div class="post-datas">
 
+          <div v-if="failsName == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsName == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messages">{{ messageName }}</li>
+            </ul>
+          </div>
+
           <div class="input-group">
-            <label for="password">Votre actuel mot de passe</label>
-            <input id="password" type="password" name="password" placeholder="Mot de passe">
+            <label for="password_old">Votre actuel mot de passe</label>
+            <input id="password_old" type="password" name="password_old" placeholder="Mot de passe">
           </div>
 
           <div class="input-group">
@@ -46,8 +91,8 @@
           </div>
 
           <div class="input-group">
-            <label for="passwordconfirm">Confirmez votre nouveau mot de passe</label>
-            <input id="passwordconfirm" type="password" name="passwordconfirm" placeholder="Mot de passe">
+            <label for="password_confirmation">Confirmez votre nouveau mot de passe</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Mot de passe">
           </div>
 
           <div class="input-group input-group-lg">
@@ -73,10 +118,17 @@
       return {
         form: {
           name: "",
-          password: ""
+          email: "",
+          password_old: "",
+          password: "",
+          password_confirmation: ""
         },
-        fails: "nosubmit",
-        messages: []
+        failsName: "nosubmit",
+        messagesName: [],
+        failsEmail: "nosubmit",
+        messagesEmail: [],
+        failsPassword: "nosubmit",
+        messagesPassword: [],
       }
     },
     methods: {
@@ -127,6 +179,38 @@
           align-content: flex-start;
 
           background-color: $creme;
+
+          .errorsmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
+
+          .successmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
 
           // design des champs a remplir
           .input-group{
