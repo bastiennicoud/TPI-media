@@ -107,6 +107,7 @@
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
           <vue-clip id="drag-n-drop" :options="options">
+
             <template slot="clip-uploader-action">
               <div>
                 <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
@@ -153,7 +154,12 @@
         // options liées a l'utilisation de vue.clip (upload en drag n drop)
         options: {
           url: '/upload',
-          paramName: 'file'
+          paramName: 'profilephoto',
+          uploadMultiple: 0,
+          maxFilesize: {
+            limit: 1,
+            message: '{{ filesize }} votre ficher est trop grand {{ maxFilesize }}'
+          }
         }
       }
     },
@@ -468,7 +474,7 @@
           #drag-n-drop{
             box-sizing: border-box;
             width: 100%;
-            height: 100px;
+            min-height: 100px;
             margin: 10px;
             padding: 10px;
             text-align: center;
@@ -483,6 +489,10 @@
         width: 480px;
         margin: 0px auto;
       }
+    }
+    // style pour le drag n drop
+    .upload-action.is-dragging {
+      background: green;
     }
   }
 </style>
