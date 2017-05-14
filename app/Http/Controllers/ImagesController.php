@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
-use App\Post;
+use App\Poster;
 
 class ImagesController extends Controller
 {
@@ -85,15 +85,14 @@ class ImagesController extends Controller
       //$file = $uploadedfile->move(public_path('ressources/profilephotos'), $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
 
       // traitement de l'image avec la librairie intervention image
-      $manager = new ImageManager(['driver' => 'gd']);
-      $manager->make($request->file('profilephoto'))
-        ->resize(128, 128)
-        ->save('ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension(), 80);
+      //$manager = new ImageManager(['driver' => 'gd']);
+      //$manager->make($request->file('profilephoto'))
+      //  ->resize(128, 128)
+      //  ->save('ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension(), 80);
 
       // on ecris dans la base de donné le chemin de la nouvele image
-      $request->user()->image = '/ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension();
-      $request->user()->save();
-
+      $poster = Poster::create(['url' => 'ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension()]);
+      dd($poster);
       // on retourne au client les infos
       $userupdate = [
         'permission' => true,
