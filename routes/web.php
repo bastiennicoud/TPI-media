@@ -38,6 +38,10 @@ Route::get('myprofile', function () { return view('index'); });
 // -----------------------------------------------------------------------------
 Route::group(['prefix' => 'rest'], function () {
 
+  // -------------------------------------------
+  // Routes liées a l'utilisateur
+  // -------------------------------------------
+
   // Inscription d'un utilisateur
   Route::post('register', 'UsersauthController@register');
   // Connexion
@@ -54,7 +58,22 @@ Route::group(['prefix' => 'rest'], function () {
   Route::post('modifyemail', 'UsersauthController@modifyemail');
   // Pour modifier son mot de passe
   Route::post('modifypass', 'UsersauthController@modifypass');
-  
+
+
+  // -------------------------------------------
+  // Routes liées aux posts
+  // -------------------------------------------
+
+  // Création d'un nouveau post (article)
+  Route::post('post', 'PostsController@newpost');
+  // Modification d'un post esistant
+  Route::patch('post/{id}', 'PostsController@editpost');
+
+
+  // -------------------------------------------
+  // Routes liées a l'upload d'images
+  // -------------------------------------------
+
   // Modifie la photo de profile
   Route::post('newprofilephoto', 'ImagesController@newprofilephoto');
 

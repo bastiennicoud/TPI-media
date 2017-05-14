@@ -41,6 +41,7 @@
           </div>-->
 
           <div class="input-group input-group-lg">
+            <p>Vous n'avez pas de compte ? <router-link :to="{name: 'Register'}">Inscrivez-vous</router-link></p>
             <button type="button" name="submit" v-on:click="submit">Valider</button>
           </div>
 
@@ -83,8 +84,6 @@
         }/*, {emulateJSON:true}*/).then((response) => {
 
           // s'execute si l'appel fonctionne bien
-          //console.log(response)
-
           this.messages = []
 
           // si le serveur repond que l'utilisateur a été correctement connecté
@@ -103,7 +102,7 @@
 
             // je redirige l'utilisateur a la page d'acceuil
             this.$router.push('/')
-            
+
           } else {
             this.fails = "true"
             this.messages.push('Les informations renseignées sont erronées')

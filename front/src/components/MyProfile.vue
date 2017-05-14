@@ -117,7 +117,7 @@
             </ul>
           </div>
 
-          <p id="label-drag-n-drop">Ajoutez une belle photo de profil (max 1000 par 1000px) et 1mo</p>
+          <p id="label-drag-n-drop">Ajoutez une belle photo de profil max 1mo</p>
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
           <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
@@ -150,6 +150,8 @@
 <script>
   export default {
     name: 'myProfile',
+    // -------------------------------------------------------------
+    // data retourne toutes les variables liées a ce composant
     data () {
       return {
         // pour stoquer les d'ifférentes données inserées
@@ -181,7 +183,10 @@
         }
       }
     },
+    // -------------------------------------------------------------
+    // toutes les methodes propres au composant
     methods: {
+      // methode pour modification du nom
       submitName () {
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/modifyname', {
@@ -225,6 +230,7 @@
           this.messagesName.push('Erreur lors de la requète.')
         })
       },
+      // methode pour la modification de l'email
       submitEmail() {
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/modifyemail', {
@@ -260,6 +266,7 @@
           this.messagesEmail.push('Erreur lors de la requète.')
         })
       },
+      // methode pour la modification du mot de passes
       submitPassword() {
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/modifypass', {

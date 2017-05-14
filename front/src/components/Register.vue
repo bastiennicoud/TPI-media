@@ -85,9 +85,6 @@
     },
     methods: {
       submit () {
-        console.log('La methode est appelée');
-
-
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/register', {
 
@@ -100,7 +97,6 @@
         }/*, {emulateJSON:true}*/).then((response) => {
 
           // s'execute si l'appel fonctionne bien
-          console.log(response)
 
           this.messages = []
 

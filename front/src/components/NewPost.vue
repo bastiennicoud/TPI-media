@@ -33,10 +33,12 @@
         </div>
 
         <div class="post-datas">
-          <p id="label-drag-n-drop">Ajoutez une affiche pour votre événement (max 600 par 600px)</p>
+
+          <p id="label-drag-n-drop">Ajoutez une affiche pour votre événement max 1mo</p>
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
-          <vue-clip id="drag-n-drop" :options="options">
+          <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
+
             <template slot="clip-uploader-action">
               <div>
                 <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
@@ -50,6 +52,7 @@
             </template>
 
           </vue-clip>
+
         </div>
 
         <div class="post-datas">
