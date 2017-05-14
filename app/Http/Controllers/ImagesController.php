@@ -11,6 +11,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+
 class ImagesController extends Controller
 {
 
@@ -21,21 +24,37 @@ class ImagesController extends Controller
    */
   public function newprofilephoto(Request $request) {
 
-    // appel de la facade de connexion de laravel
-    if(Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')])){
-      $userinfos = [
-        'connected' => true,
-        'username' =>  Auth::user()->name,
-        'userimage' =>  Auth::user()->image,
-        'userrole' =>  Auth::user()->role
+    // verfie que l'user est connecté
+    if(!Auth::check()){
+      $userupdate = [
+        'permission' => false,
+        'messages' => [
+          'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
+        ]
       ];
-      return response()->json($userinfos);
+      return response()->json($userupdate);
     } else {
-      $userinfos = [
-        'connected' => false
-      ];
-      return response()->json($userinfos);
-    }
+      // en premier je sauvegarde l'image dans le bon doosier
+      $uploadedfile = $request->file('profilephoto');
+      $file = $uploadedfile->move(public_path('ressources/profilephotos'), $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
 
+      // traitement de l'image avec la librairie intervention image
+      $manager = new ImageManager(['driver' => 'gd']);
+      $manager->make($file->getRealPath())->fit(128, 128)->save($request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
+
+      // on ecris dans la base de donné le chemin de la nouvele image
+      $request->user()->image = '/ressources/profilephotos/' . $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension();
+      $request->user()->save();
+
+      // on retourne au client les infos
+      $userupdate = [
+        'permission' => true,
+        'imageurl' => $request->user()->image,
+        'messages' => [
+          'image' => [0 => "Votre photo de profile a bien été modifiée."]
+        ]
+      ];
+      return response()->json($userupdate);
+    }
   }
 }

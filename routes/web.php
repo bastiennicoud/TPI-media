@@ -54,6 +54,7 @@ Route::group(['prefix' => 'rest'], function () {
   Route::post('modifyemail', 'UsersauthController@modifyemail');
   // Pour modifier son mot de passe
   Route::post('modifypass', 'UsersauthController@modifypass');
+  
   // Modifie la photo de profile
   Route::post('newprofilephoto', 'ImagesController@newprofilephoto');
 

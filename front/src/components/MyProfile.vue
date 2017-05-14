@@ -101,12 +101,26 @@
 
         </div>
 
+        <h2>Photo de profile</h2>
+
         <!-- Ajout d'une photo de profil -->
         <div class="post-datas">
-          <p id="label-drag-n-drop">Ajoutez une belle photo de profile (max 1000 par 1000px)</p>
+
+          <div v-if="failsImage == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsImage == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+
+          <p id="label-drag-n-drop">Ajoutez une belle photo de profil (max 1000 par 1000px) et 1mo</p>
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
-          <vue-clip id="drag-n-drop" :options="options">
+          <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
 
             <template slot="clip-uploader-action">
               <div>
@@ -138,6 +152,7 @@
     name: 'myProfile',
     data () {
       return {
+        // pour stoquer les d'ifférentes données inserées
         form: {
           name: "",
           email: "",
@@ -145,15 +160,18 @@
           password: "",
           password_confirmation: ""
         },
+        // pour stoquer les différents messages d'erreurs
         failsName: "nosubmit",
         messagesName: [],
         failsEmail: "nosubmit",
         messagesEmail: [],
         failsPassword: "nosubmit",
         messagesPassword: [],
+        failsImage: "nosubmit",
+        messagesImage: [],
         // options liées a l'utilisation de vue.clip (upload en drag n drop)
         options: {
-          url: '/upload',
+          url: '/rest/newprofilephoto',
           paramName: 'profilephoto',
           uploadMultiple: 0,
           maxFilesize: {
@@ -279,6 +297,48 @@
           this.messagesPassword.push('Erreur lors de la requète.')
         })
       },
+      // cette methode est appelée lorsque le composant vue clip a recu une réponce du serveur aprés un upload
+      complete (file, status, xhr) {
+
+        // je vide le tableau contenant les erreurs liées a l'image
+        this.messagesImage = []
+
+        // si le serveur renvoie une erreur
+        if(status == 'error'){
+          // changement de couleur pour la zonne d'erreurs
+          this.failsImage = "true"
+          // Affiche une erreur
+          this.messagesImage.push("Votre image n'a pas pu être enregistrée")
+        } else {
+          // si le serveur a bien répondu
+          // il faut convertir sa réponse en json, en effet, le composant qui se charge de faire l'upload
+          // nous retoure l'objet XHR brut de javascript, ou la reponse est sous forme de texte
+          let response = JSON.parse(xhr.responseText)
+
+          // on teste si le serveur nous renvoie que l'on a pas la permission de cette action
+          if(response.permission == false) {
+            // dans ce cas on change la couleur
+            this.failsImage = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+          } else {
+            // dans ce cas on change la couleur
+            this.failsImage = "false"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+
+            // on va modifier l'etat global de vue js pour y injecter les infos du nouvel utilisateur
+            // j'utilise les mutations pour effectuer les changements de state
+            // les muttations sont définiees dans le stores/AppStore.js
+            this.$store.commit('USER_SETPHOTO', '')
+            this.$store.commit('USER_SETPHOTO', response.imageurl)
+          }
+        }
+      }
     }
   }
 </script>
@@ -474,7 +534,6 @@
           #drag-n-drop{
             box-sizing: border-box;
             width: 100%;
-            min-height: 100px;
             margin: 10px;
             padding: 10px;
             text-align: center;
