@@ -76,5 +76,7 @@ Route::group(['prefix' => 'rest'], function () {
 
   // Modifie la photo de profile
   Route::post('newprofilephoto', 'ImagesController@newprofilephoto');
+  // Pour ajouter une affiche a un post
+  Route::post('addposter', 'ImagesController@addposter');
 
 });

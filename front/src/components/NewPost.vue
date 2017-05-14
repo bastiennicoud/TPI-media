@@ -17,17 +17,17 @@
 
           <div class="input-group">
             <label for="title">Titre de l'événement (60 caractéres)</label>
-            <input id="title" type="text" name="title" placeholder="Titre">
+            <input id="title" type="text" name="title" v-model="form.title" placeholder="Titre">
           </div>
 
           <div class="input-group">
             <label for="date">Date de votre événement</label>
-            <input id="date" type="date" name="date">
+            <input id="date" type="date" v-model="form.date" name="date">
           </div>
 
           <div class="input-group input-group-lg">
             <label for="texthat">Une accroche succinte a votre événement (env 2 lignes)</label>
-            <textarea id="texthat" name="texthat" rows="3" cols="80" placeholder="Chapeau de votre post."></textarea>
+            <textarea id="texthat" name="texthat" rows="3" cols="80" v-model="form.hat" placeholder="Chapeau de votre post."></textarea>
           </div>
 
         </div>
@@ -35,6 +35,17 @@
         <div class="post-datas">
 
           <p id="label-drag-n-drop">Ajoutez une affiche pour votre événement max 1mo</p>
+
+          <div v-if="failsImage == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsImage == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
           <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
@@ -59,7 +70,7 @@
 
           <div class="input-group input-group-lg">
             <label for="content">Une description plus détaillée de votre événement</label>
-            <textarea name="content" rows="10" cols="80" placeholder="La description de votre événement"></textarea>
+            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="La description de votre événement"></textarea>
           </div>
 
           <div class="input-group input-group-lg">
@@ -67,7 +78,7 @@
           </div>
 
         </div>
-
+{{form.title}} {{form.date}} {{form.hat}} {{form.body}}
       </div>
 
     </div>
@@ -81,11 +92,70 @@
 <script>
   export default {
     name: 'newPost',
+    // -------------------------------------------------------------
+    // data retourne toutes les variables liées a ce composant
     data () {
       return {
+        // stoque touts les données inserées dans les inputs
+        form: {
+          title: "",
+          date: "",
+          hat: "",
+          body: "",
+          idpost: 0
+        },
+        // pour gerer les différentes erreurs
+        failsPost: "nosubmit",
+        messagesPost: [],
+        failsImage: "nosubmit",
+        messagesImage: [],
+        // les options pour le composant d'upload
         options: {
-          url: '/upload',
-          paramName: 'file'
+          url: '/rest/addposter',
+          paramName: 'poster',
+          uploadMultiple: 0,
+          maxFilesize: {
+            limit: 1,
+            message: '{{ filesize }} votre ficher est trop grand {{ maxFilesize }}'
+          }
+        }
+      }
+    },
+    methods: {
+      // methods lorsque le composant vue clip a recu une réponse
+      complete (file, status, xhr) {
+
+        // je vide le tableau contenant les erreurs liées a l'image
+        this.messagesImage = []
+
+        // si le serveur renvoie une erreur
+        if(status == 'error'){
+          // changement de couleur pour la zonne d'erreurs
+          this.failsImage = "true"
+          // Affiche une erreur
+          this.messagesImage.push("Votre image n'a pas pu être enregistrée")
+        } else {
+          // si le serveur a bien répondu
+          // il faut convertir sa réponse en json, en effet, le composant qui se charge de faire l'upload
+          // nous retoure l'objet XHR brut de javascript, ou la reponse est sous forme de texte
+          let response = JSON.parse(xhr.responseText)
+
+          // on teste si le serveur nous renvoie que l'on a pas la permission de cette action
+          if(response.permission == false) {
+            // dans ce cas on change la couleur
+            this.failsImage = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+          } else {
+            // dans ce cas on change la couleur
+            this.failsImage = "false"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+          }
         }
       }
     }
@@ -130,6 +200,38 @@
           align-content: flex-start;
 
           background-color: $creme;
+
+          .errorsmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
+
+          .successmessage{
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+
+            ul{
+              margin: 0px;
+              padding-left: 17px;
+              li{
+                margin: 3px;
+                list-style: disc;
+                font-family: 'DIN-alternate-medium';
+              }
+            }
+          }
 
           // design des champs a remplir
           .input-group{

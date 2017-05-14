@@ -20,7 +20,7 @@ class PostsController extends Controller
    * @return Response
    */
   public function newpost(Request $request) {
-
+    return 'tutu';
   }
 
 
@@ -31,6 +31,6 @@ class PostsController extends Controller
    * @return Response
    */
   public function editpost(Request $request) {
-
+    return 'tutu';
   }
 }
