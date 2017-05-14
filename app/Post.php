@@ -8,11 +8,20 @@ class Post extends Model
 {
 
   /**
+   * Definis les attributs editables massivement
+   *
+   * @var array
+   */
+  protected $fillable = [
+      'title', 'slug', 'date', 'hat', 'content', 'online', 'user_id', 'poster_id'
+  ];
+
+  /**
   * Permet d'obtenir la photo coresspondant au post
   */
   public function poster()
   {
-    return $this->hasOne('App\Poster');
+    return $this->belongsTo('App\Poster');
   }
 
   /**

@@ -21,7 +21,7 @@ class Poster extends Model
   */
   public function user()
   {
-    return $this->belongsTo('App\Post');
+    return $this->hasOne('App\Post');
   }
 
 }

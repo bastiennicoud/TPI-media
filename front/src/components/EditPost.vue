@@ -1,4 +1,4 @@
-<!-- Composant NewPost -->
+<!-- Composant EditPost -->
 <!-- Représente la page d'édition d'un nouvel article -->
 
 
@@ -11,7 +11,7 @@
 
       <div class="post-input-box">
 
-        <h1>Créez un nouvel événement</h1>
+        <h1>Editez {{form.title}} </h1>
 
         <div class="post-datas">
 
@@ -132,11 +132,33 @@
         }
       }
     },
+    created () {
+      // apele la methode chargée de charger les posts lorsque le composant est crée
+      this.getPost()
+    },
     methods: {
-      // lorsque l'on soumet le nouvel article
+      // récupere les infos concernant ce post
+      getPost () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.get('/rest/post/' + this.$route.params.postId).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          this.form.title = response.data[0].title
+          this.form.date = response.data[0].date
+          this.form.hat = response.data[0].hat
+          this.form.body = response.data[0].content
+          this.form.idimage = response.data[0].poster.id
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      },
+      // lorsque l'on soumet les modifications
       submit () {
         // appel ajax en POST grace a Vue-Resource
-        this.$http.post('/rest/post', {
+        this.$http.patch('/rest/post/' + this.$route.params.postId, {
 
           // les différentes valeurs a transmetre
           title: this.form.title,

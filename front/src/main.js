@@ -65,6 +65,14 @@ const router = new VueRouter({
 
   },{
 
+    // Page pour la modification d'un article
+    path: '/editpost/:postId',
+    name: 'EditPost',
+    component: resolve => require(['./components/EditPost.vue'], resolve),
+    props: true
+
+  },{
+
     // page d'inscription
     path: '/register',
     name: 'Register',

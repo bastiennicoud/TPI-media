@@ -8,18 +8,18 @@
   <div class="postedit">
 
       <div class="post-image">
-        <img src="/ressources/posters/affiche.jpg" alt="L'affiche du post">
+        <img :src="post.poster.url" :alt="post.title">
       </div>
 
       <div class="post-text">
-        <h2>Soirée JAM</h2>
-        <p class="date">28 avril 2017</p>
+        <h2>{{ post.title }}</h2>
+        <p class="date">{{ post.date }}</p>
         <span></span>
-        <p><strong>Pour sa 5ème soirée JAM de l'année, le conservatoire vous fais découvrir les musiques typiques...</strong></p>
-        <p class="infos">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p><strong>{{ post.hat }}</strong></p>
+        <p class="infos">{{ post.content }}</p>
 
         <div class="post-edit-options">
-          <button type="button" name="editpost">Editer L'article</button>
+          <button type="button" name="editpost" v-on:click="editPost">Editer L'article</button>
           <button type="button" name="deletepost">Supprimer l'article</button>
         </div>
       </div>
@@ -32,7 +32,13 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'postEdit'
+    name: 'postEdit',
+    props: ['post'],
+    methods: {
+      editPost () {
+        this.$router.push({ name: 'EditPost', params: { postId: this.post.id }})
+      }
+    }
   }
 </script>
 

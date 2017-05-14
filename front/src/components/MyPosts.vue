@@ -13,13 +13,9 @@
 
         <h1>Mes posts</h1>
 
-        <!-- le composant post affiche les posts -->
-        <post-edit></post-edit>
-        <post-edit></post-edit>
-        <post-edit></post-edit>
-        <post-edit></post-edit>
-        <post-edit></post-edit>
-        <post-edit></post-edit>
+        <!-- pour chaque post je crée un composant post-edit -->
+        <post-edit v-for="post in posts" :post="post" :key="post.id"></post-edit>
+
 
       </div>
 
@@ -37,7 +33,32 @@
 
   export default {
     name: 'myPosts',
-    components: { postEdit }
+    components: { postEdit },
+    data () {
+      return {
+        posts: {}
+      }
+    },
+    created () {
+      // apele la methode chargée de charger les posts lorsque le composant est crée
+      this.getDatas()
+    },
+    methods: {
+      // charge tous les posts de l'utilisateur connecté
+      getDatas () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.get('/rest/postsuser').then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          this.posts = response.data
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      }
+    }
   }
 </script>
 

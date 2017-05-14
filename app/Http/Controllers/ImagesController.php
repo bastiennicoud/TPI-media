@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Hash;
 use App\Poster;
 
 class ImagesController extends Controller
@@ -72,6 +73,7 @@ class ImagesController extends Controller
 
     // verfie que l'user est connecté
     if(!Auth::check()){
+      // si il ne l'est pas
       $userupdate = [
         'permission' => false,
         'messages' => [
@@ -80,23 +82,27 @@ class ImagesController extends Controller
       ];
       return response()->json($userupdate);
     } else {
-      // en premier je sauvegarde l'image dans le bon doosier
-      //$uploadedfile = $request->file('profilephoto');
-      //$file = $uploadedfile->move(public_path('ressources/profilephotos'), $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
+      // si il l'est
+      // création d'un hash unique pour sauvegarder l'image sans conflits
+      $hash = str_random(30);
 
       // traitement de l'image avec la librairie intervention image
-      //$manager = new ImageManager(['driver' => 'gd']);
-      //$manager->make($request->file('profilephoto'))
-      //  ->resize(128, 128)
-      //  ->save('ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension(), 80);
+      $manager = new ImageManager(['driver' => 'gd']);
+      $manager->make($request->file('poster'))
+        ->resize(500, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        })
+        ->save('ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension(), 80);
+
 
       // on ecris dans la base de donné le chemin de la nouvele image
-      $poster = Poster::create(['url' => 'ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension()]);
-      dd($poster);
+      $poster = Poster::create(['url' => 'ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension()]);
+
       // on retourne au client les infos
       $userupdate = [
         'permission' => true,
-        'imageurl' => $request->user()->image,
+        'imageid' => $poster->id,
         'messages' => [
           'image' => [0 => "Votre photo de profile a bien été modifiée."]
         ]

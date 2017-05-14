@@ -64,10 +64,21 @@ Route::group(['prefix' => 'rest'], function () {
   // Routes liées aux posts
   // -------------------------------------------
 
+  // renvoie un JSON avec les 10 derniers posts
+  Route::get('posts', 'PostsController@getposts');
+  // renvoie un JSON avec les posts de l'utilisateur connecté
+  Route::get('postsuser', 'PostsController@getpostsuser');
+  // renvoie un JSON avec le post demandé
+  Route::get('post/{postId}', 'PostsController@getpost');
+  // renvoie un JSON avec le post demandé (mais avec comme parametre le slug)
+  Route::get('post/{postSlug}', 'PostsController@getpostslug');
+  // renvoie un JSON avec les 10 derniers commentaires du post
+  Route::get('comments/{postId}', 'PostsController@getcomment');
+
   // Création d'un nouveau post (article)
   Route::post('post', 'PostsController@newpost');
   // Modification d'un post esistant
-  Route::patch('post/{id}', 'PostsController@editpost');
+  Route::patch('post/{postId}', 'PostsController@editpost');
 
 
   // -------------------------------------------

@@ -38,7 +38,7 @@ class User extends Authenticatable
     /**
     * Permet d'obtenir les commentaires de l'utilisateur
     */
-    public function posts()
+    public function comments()
     {
       return $this->hasMany('App\Comment');
     }
