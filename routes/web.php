@@ -79,6 +79,8 @@ Route::group(['prefix' => 'rest'], function () {
   Route::post('post', 'PostsController@newpost');
   // Modification d'un post esistant
   Route::patch('post/{postId}', 'PostsController@editpost');
+  // Suppresion d'un post existant
+  Route::delete('post/{postId}', 'PostsController@deletepost');
 
 
   // -------------------------------------------

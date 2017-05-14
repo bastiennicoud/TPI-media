@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Post;
 
 class PostsController extends Controller
@@ -43,7 +44,7 @@ class PostsController extends Controller
    */
   public function getpostsuser(Request $request) {
 
-    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('user_id', $request->user()->id)->limit(10)->get();
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);
@@ -164,7 +165,7 @@ class PostsController extends Controller
 
 
   /**
-   * Création d'un nouveau post
+   * Edition d'un post
    *
    * @return Response
    */
@@ -181,9 +182,10 @@ class PostsController extends Controller
       ];
       return response()->json($newpost);
     } else {
-      // si l'utilisateur est connecté, on verifie qu'il a l'autorisation de créer un post
-      // seul les utilisateurs ayant un role un dessous de 3 peuvent créer un post
-      if(!($request->user()->role <= 2)){
+      // si l'utilisateur est connecté, on verifie qu'il est propriétaire de ce post
+      $post = Post::find($postId);
+      //sdd($post);
+      if(!($request->user()->id == $post->user_id)){
         $newpost = [
           'validation' => false,
           'messages' => [
@@ -197,7 +199,14 @@ class PostsController extends Controller
         // validation des données postées
         $validator = Validator::make($request->all(), [
           // le champ a valider, puis les regles de validation
-          'title' => 'required|unique:posts|max:60',
+          'title' => [
+            'required',
+            'max:60',
+            // rule me permet de définir un regle custom
+            // ici lors de la verification que le titre est unique
+            // je lui demande d'ignorer son propre titre
+            Rule::unique('posts')->ignore($postId)
+          ],
           'date' => 'required',
           'hat' => 'required|max:200',
           'body' => 'required',
@@ -244,6 +253,54 @@ class PostsController extends Controller
           ];
           return response()->json($newpost);
         }
+      }
+    }
+  }
+
+
+
+  /**
+   * Suppression d'un post
+   *
+   * @return Response
+   */
+  public function deletepost(Request $request, $postId) {
+
+    // on verifie si l'utilisateur est bien connecté
+    if(!Auth::check()){
+      // si ce n'est pas le cas, on lui renvoie qu'il n'a pas le droit d'effectuer cette action
+      $newpost = [
+        'validation' => false,
+        'messages' => [
+          'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
+        ]
+      ];
+      return response()->json($newpost);
+    } else {
+      // si l'utilisateur est connecté, on verifie qu'il est propriétaire de ce post
+      $post = Post::find($postId);
+      //sdd($post);
+      if(!($request->user()->id == $post->user_id)){
+        $newpost = [
+          'validation' => false,
+          'messages' => [
+            'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
+          ]
+        ];
+        return response()->json($newpost);
+      } else {
+        // si l'utilisateur est autorisé on peut alors valider les informations
+
+        // supression du post concerné
+        Post::find($postId)->delete();
+
+        $newpost = [
+          'validation' => true,
+          'messages' => [
+            'post' => [0 => "Votre post a bien été supprimé"]
+          ]
+        ];
+        return response()->json($newpost);
 
       }
     }

@@ -20,7 +20,7 @@
 
         <div class="post-edit-options">
           <button type="button" name="editpost" v-on:click="editPost">Editer L'article</button>
-          <button type="button" name="deletepost">Supprimer l'article</button>
+          <button type="button" name="deletepost" v-on:click="deletePost">Supprimer l'article</button>
         </div>
       </div>
 
@@ -37,6 +37,19 @@
     methods: {
       editPost () {
         this.$router.push({ name: 'EditPost', params: { postId: this.post.id }})
+      },
+      deletePost () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.delete('/rest/post/' + this.post.id).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
       }
     }
   }

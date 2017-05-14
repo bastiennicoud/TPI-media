@@ -85,7 +85,7 @@
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="button" v-on:click="submit">Ajouter l'article</button>
+            <button type="button" name="button" v-on:click="submit">Editer l'article</button>
           </div>
 
         </div>
@@ -113,7 +113,7 @@
           date: "",
           hat: "",
           body: "",
-          idimage: "2"
+          idimage: ""
         },
         // pour gerer les différentes erreurs
         failsPost: "nosubmit",
