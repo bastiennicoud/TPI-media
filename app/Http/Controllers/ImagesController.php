@@ -35,15 +35,17 @@ class ImagesController extends Controller
       return response()->json($userupdate);
     } else {
       // en premier je sauvegarde l'image dans le bon doosier
-      $uploadedfile = $request->file('profilephoto');
-      $file = $uploadedfile->move(public_path('ressources/profilephotos'), $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
+      //$uploadedfile = $request->file('profilephoto');
+      //$file = $uploadedfile->move(public_path('ressources/profilephotos'), $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
 
       // traitement de l'image avec la librairie intervention image
       $manager = new ImageManager(['driver' => 'gd']);
-      $manager->make($file->getRealPath())->fit(128, 128)->save($request->user()->name . '.' . $uploadedfile->getClientOriginalExtension());
+      $manager->make($request->file('profilephoto'))
+        ->resize(128, 128)
+        ->save('ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension(), 80);
 
       // on ecris dans la base de donné le chemin de la nouvele image
-      $request->user()->image = '/ressources/profilephotos/' . $request->user()->name . '.' . $uploadedfile->getClientOriginalExtension();
+      $request->user()->image = '/ressources/profilephotos/' . $request->user()->name . '.' . $request->file('profilephoto')->getClientOriginalExtension();
       $request->user()->save();
 
       // on retourne au client les infos
