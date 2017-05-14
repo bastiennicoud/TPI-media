@@ -104,7 +104,7 @@ class ImagesController extends Controller
         'permission' => true,
         'imageid' => $poster->id,
         'messages' => [
-          'image' => [0 => "Votre photo de profile a bien été modifiée."]
+          'image' => [0 => "Votre affiche a bien été ajoutée"]
         ]
       ];
       return response()->json($userupdate);

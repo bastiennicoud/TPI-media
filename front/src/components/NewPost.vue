@@ -113,7 +113,7 @@
           date: "",
           hat: "",
           body: "",
-          idimage: "2"
+          idimage: ""
         },
         // pour gerer les différentes erreurs
         failsPost: "nosubmit",
@@ -206,7 +206,7 @@
             // dans ce cas on change la couleur
             this.failsImage = "false"
             // liste les erreurs renvoyées par le serveur
-            this.idimage = response.imageid
+            this.form.idimage = response.imageid
             for(let error in response.messages){
               this.messagesImage.push(response.messages[error][0])
             }

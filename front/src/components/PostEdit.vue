@@ -43,7 +43,7 @@
         this.$http.delete('/rest/post/' + this.post.id).then((response) => {
 
           // s'execute si l'appel fonctionne bien
-          
+          this.$destroy(this)
 
         }, (response) => {
 

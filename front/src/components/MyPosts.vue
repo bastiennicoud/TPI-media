@@ -14,8 +14,10 @@
         <h1>Mes posts</h1>
 
         <!-- pour chaque post je crée un composant post-edit -->
-        <post-edit v-for="post in posts" :post="post" :key="post.id"></post-edit>
-
+        <post-edit v-if="posts" v-for="post in posts" :post="post" :key="post.id"></post-edit>
+        <div v-else class="postedit">
+          <h2>Vous n'avez aucuns posts.</h2>
+        </div>
 
       </div>
 
