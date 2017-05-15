@@ -114,9 +114,7 @@
         this.$http.get('/rest/getcomments/' + this.post.id).then((response) => {
 
           // si l'appel fonctionne bien, on transfere les posts recu aux composant
-          console.log(response.data)
           this.comments = response.data
-          //console.log(this.post)
 
         }, (response) => {
 
@@ -153,6 +151,7 @@
             for(let error in response.data.messages){
               this.messagesComment.push(response.data.messages[error][0])
             }
+            this.newcomment = ""
             this.getComments()
           }
         }, (response) => {
