@@ -107,11 +107,11 @@
       // charge tous les posts de l'utilisateur connecté
       getComments () {
         // appel ajax pour récuperer le post concerné
-        this.$http.get('/rest/getComments/' + this.post.id).then((response) => {
+        this.$http.get('/rest/getcomments/' + this.post.id).then((response) => {
 
           // si l'appel fonctionne bien, on transfere les posts recu aux composant
-          //console.log(response.data)
-          this.comments = response.data[0].comments
+          console.log(response.data)
+          this.comments = response.data
           //console.log(this.post)
 
         }, (response) => {
@@ -120,6 +120,7 @@
 
         })
       },
+      // l'orsque l'on soumme tun nouveau commentaire
       addcomment () {
         // appel ajax en POST grace a Vue-Resource
         this.$http.post('/rest/newcomment', {

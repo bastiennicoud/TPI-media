@@ -40,7 +40,7 @@ class PostsController extends Controller
 
 
   /**
-   * Renvoie a l'utilisateur tous les posts par ordre de création
+   * Renvoie a l'utilisateur tous les posts par date
    * Derniers posts ajoutés en premier
    *
    * @return Response
@@ -119,7 +119,7 @@ class PostsController extends Controller
 
 
   /**
-   * Renvoie a l'utilisateur le post demandé en id
+   * Renvoie a l'utilisateur le post demandé en id avec commentaires
    *
    * @return Response
    */
@@ -146,16 +146,16 @@ class PostsController extends Controller
    */
   public function getcomments(Request $request, $postId) {
 
-    $posts = Post::with('poster', 'comments.user')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('slug', $postSlug)->get();
+    $comments = Comment::with('user')->select('content', 'created_at', 'user_id')->where('post_id', $postId)->get();
 
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
+    // foreach ($posts as $key => $value) {
+    //   $parts = explode(' ', $value->date);
+    //   $value->date = $parts[0];
+    // }
 
     //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
 
-    return response()->json($posts);
+    return response()->json($comments);
   }
 
 
@@ -174,7 +174,7 @@ class PostsController extends Controller
       $newpost = [
         'validation' => false,
         'messages' => [
-          'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
+          'permission' => [0 => "Connectez-vous pour poster un commentaire."]
         ]
       ];
       return response()->json($newpost);
