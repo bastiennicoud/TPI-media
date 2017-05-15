@@ -14,7 +14,7 @@
       </div>
 
       <div class="post-text">
-        <h1>{{id}}</h1>
+        <h1>{{slug}}</h1>
         <h2 class="date">28 avril 2017</h2>
         <span></span>
         <p><strong>Pour sa 5ème soirée JAM de l'année, le conservatoire vous fais découvrir les musiques typiques...</strong></p>
@@ -63,8 +63,34 @@
 
   export default {
     name: 'postComplete',
-    props: ['id'],
-    components: { Comment }
+    props: ['slug'],
+    components: { Comment },
+    data () {
+      return {
+        post: {},
+        comments: {}
+      }
+    },
+    created () {
+      // apele la methode chargée de charger les posts lorsque le composant est crée
+      this.getDatas()
+    },
+    methods: {
+      // charge tous les posts de l'utilisateur connecté
+      getDatas () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.get('/rest/events').then((response) => {
+
+          // si l'appel fonctionne bien, on transfere les posts recu aux composant
+          this.dates = response.data
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      }
+    }
   }
 </script>
 

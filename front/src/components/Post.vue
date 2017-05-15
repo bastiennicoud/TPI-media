@@ -32,7 +32,7 @@
 <script>
   export default {
     name: 'post',
-    props: ['post'],
+    props: ['post']
   }
 </script>
 
@@ -77,18 +77,22 @@
 
       padding-left: 5px;
 
-      
-      h2{
-        width: 60%;
-        margin: 0px;
-        font-size: 24px;
+      a{
         text-decoration: none;
-      }
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        h2{
+          width: 60%;
+          margin: 0px;
+          font-size: 24px;
+        }
 
-      .date{
-        width: 40%;
-        margin: 0px;
-        text-align: right;
+        .date{
+          width: 40%;
+          margin: 0px;
+          text-align: right;
+        }
       }
 
       span{

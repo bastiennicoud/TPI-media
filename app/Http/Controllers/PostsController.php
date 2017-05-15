@@ -59,6 +59,26 @@ class PostsController extends Controller
 
 
   /**
+   * Renvoie a l'utilisateur tous evenements qui aurons lieu le mois qui viens
+   * Derniers posts ajoutés en premier
+   *
+   * @return Response
+   */
+  public function getmonthevents(Request $request) {
+
+    $posts = Post::select('title', 'slug', 'date')->where('online', 1)->whereRaw("date > NOW() and date < NOW() + INTERVAL 1 MONTH")->orderBy('date', 'asc')->limit(10)->get();
+
+    foreach ($posts as $key => $value) {
+      $parts = explode(' ', $value->date);
+      $value->date = $parts[0];
+    }
+
+    return response()->json($posts);
+  }
+
+
+
+  /**
    * Renvoie a l'utilisateur tous ces posts
    *
    * @return Response
@@ -86,6 +106,25 @@ class PostsController extends Controller
   public function getpost(Request $request, $postId) {
 
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('id', $postId)->get();
+
+    foreach ($posts as $key => $value) {
+      $parts = explode(' ', $value->date);
+      $value->date = $parts[0];
+    }
+
+    return response()->json($posts);
+  }
+
+
+
+  /**
+   * Renvoie a l'utilisateur le post demandé en id
+   *
+   * @return Response
+   */
+  public function getpostslug(Request $request, $postSlug) {
+
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('slug', $postSlug)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);

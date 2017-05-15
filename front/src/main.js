@@ -44,7 +44,7 @@ const router = new VueRouter({
   },{
 
     // Page consulter un article
-    path: '/post/:id',
+    path: '/post/:slug',
     name: 'Post',
     component: resolve => require(['./components/PostComplete.vue'], resolve),
     props: true

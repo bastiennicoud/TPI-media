@@ -7,8 +7,10 @@
 <template>
   <div class="eventdate">
 
-    <p><strong>28 avril 2017</strong></p>
-    <p>Soirée JAM</p>
+    <router-link :to="{name: 'Post', params: { id: date.slug }}">
+      <p><strong>{{date.date}}</strong></p>
+      <p>{{date.title}}</p>
+    </router-link>
 
   </div>
 </template>
@@ -18,7 +20,8 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'eventDate'
+    name: 'eventDate',
+    props: ['date']
   }
 </script>
 
@@ -34,5 +37,8 @@
 
   .eventdate{
     margin: 8px 0px;
+    a{
+      text-decoration: none;
+    }
   }
 </style>

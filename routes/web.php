@@ -71,10 +71,13 @@ Route::group(['prefix' => 'rest'], function () {
   // renvoie un JSON avec les posts de l'utilisateur connecté
   Route::get('postsuser', 'PostsController@getpostsuser');
 
+  // renvoie les événements qui auront lieu durant le mois qui viens
+  Route::get('events', 'PostsController@getmonthevents');
+
   // renvoie un JSON avec le post demandé
   Route::get('post/{postId}', 'PostsController@getpost');
   // renvoie un JSON avec le post demandé (mais avec comme parametre le slug)
-  Route::get('post/{postSlug}', 'PostsController@getpostslug');
+  Route::get('postslug/{postSlug}', 'PostsController@getpostslug');
 
   // renvoie un JSON avec les 10 derniers commentaires du post
   Route::get('comments/{postId}', 'PostsController@getcomment');
