@@ -21,6 +21,8 @@
         <div class="post-edit-options">
           <button type="button" name="editpost" v-on:click="editPost">Editer L'article</button>
           <button type="button" name="deletepost" v-on:click="deletePost">Supprimer l'article</button>
+          <button v-if="post.online" type="button" name="deletepost" v-on:click="makeOnline">Mettre hors ligne</button>
+          <button v-else type="button" name="deletepost" v-on:click="makeOnline">Mettre en ligne</button>
         </div>
       </div>
 
@@ -47,6 +49,23 @@
           // le composant parent va pouvoir le détecter et mettre a jour la vue
           // pour suprimer le post qui viend d'étre supprimé
           this.$emit('deletedPost')
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      },
+      makeOnline () {
+        // appel ajax en POST grace a Vue-Resource
+        // on lui passe l'id du post a supprimer
+        this.$http.patch('/rest/postonline/' + this.post.id).then((response) => {
+
+          if(response.body == true){
+            this.post.online = !this.post.online
+          } else {
+            console.log('Erreur lors de la requète au serveur')
+          }
 
         }, (response) => {
 
@@ -148,6 +167,10 @@
 
           &:nth-child(2){
             background-color: lighten(#e74c3c, 10%);
+          }
+
+          &:nth-child(3){
+            background-color: #1abc9c;
           }
         }
       }

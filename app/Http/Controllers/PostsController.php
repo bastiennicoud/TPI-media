@@ -86,7 +86,7 @@ class PostsController extends Controller
    */
   public function getpostsuser(Request $request) {
 
-    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'online', 'poster_id')->where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);
@@ -402,6 +402,37 @@ class PostsController extends Controller
       }
     }
   }
+
+
+
+  /**
+   * Permet de mettee la valeur online a true ou false
+   *
+   * @return Response
+   */
+  public function postonline(Request $request, $postId) {
+
+    // je récupere le post en question
+    $post = Post::find($postId);
+    // avec ce if je passe la valeur à l'inverse que ce qu'elle est
+    if($post->online == 0){
+      $post->online = 1;
+    } else {
+      $post->online = 0;
+    }
+    $post->save();
+    //if($post->)
+
+    // foreach ($posts as $key => $value) {
+    //   $parts = explode(' ', $value->date);
+    //   $value->date = $parts[0];
+    // }
+
+    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
+
+    return response()->json(true);
+  }
+
 
 
 
