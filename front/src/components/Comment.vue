@@ -23,7 +23,8 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'comment'
+    name: 'comment',
+    props: ['comment']
   }
 </script>
 

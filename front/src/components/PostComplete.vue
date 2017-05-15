@@ -10,15 +10,15 @@
     <div class="container">
 
       <div class="post-image">
-        <img src="/ressources/posters/affiche.jpg" alt="L'affiche du post">
+        <img :src="post.poster.url" :alt="post.title">
       </div>
 
       <div class="post-text">
-        <h1>{{slug}}</h1>
-        <h2 class="date">28 avril 2017</h2>
+        <h1>{{ post.title }}</h1>
+        <h2 class="date">{{ post.date }}</h2>
         <span></span>
-        <p><strong>Pour sa 5ème soirée JAM de l'année, le conservatoire vous fais découvrir les musiques typiques...</strong></p>
-        <p class="infos">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p><strong>{{ post.hat }}</strong></p>
+        <p class="infos">{{ post.content }}</p>
       </div>
 
     </div>
@@ -28,10 +28,7 @@
 
         <h2>Commentaires</h2>
 
-        <comment></comment>
-        <comment></comment>
-        <comment></comment>
-        <comment></comment>
+        <comment v-for="comment in comments" :comment="comment" :key="comment.id"></comment>
 
       </div>
     </div>
@@ -40,13 +37,24 @@
       <div class="comment-form">
         <h2>Ajoutez un commentaire</h2>
 
+          <div v-if="failsComment == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messagesComment">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsComment == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messagesComment">{{ message }}</li>
+            </ul>
+          </div>
+
           <div class="input-group">
             <label for="newcomment">Commentez cet evenement !</label>
-            <textarea id="newcomment" type="text" name="newcomment" placeholder="Votre commentaire"></textarea>
+            <textarea id="newcomment" type="text" name="newcomment" v-model="newcomment" placeholder="Votre commentaire"></textarea>
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submit">Ajouter</button>
+            <button type="button" name="submit" v-on:click="addcomment">Ajouter</button>
           </div>
 
       </div>
@@ -68,7 +76,10 @@
     data () {
       return {
         post: {},
-        comments: {}
+        comments: {},
+        newcomment: "",
+        failsComment: "nosubmit",
+        messagesComment: []
       }
     },
     created () {
@@ -79,15 +90,61 @@
       // charge tous les posts de l'utilisateur connecté
       getDatas () {
         // appel ajax en POST grace a Vue-Resource
-        this.$http.get('/rest/events').then((response) => {
+        this.$http.get('/rest/postslug/' + this.slug).then((response) => {
 
           // si l'appel fonctionne bien, on transfere les posts recu aux composant
-          this.dates = response.data
+          //console.log(response.data)
+          this.post = response.data[0]
+          this.comments = response.data[0].comments
+          //console.log(this.post)
 
         }, (response) => {
 
           console.log('Erreur lors de la requète au serveur')
 
+        })
+      },
+      addcomment () {
+        console.log('addcoment')
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.post('/rest/post', {
+
+          // les différentes valeurs a transmetre
+          title: this.form.title,
+          date: this.form.date,
+          hat: this.form.hat,
+          body: this.form.body,
+          idimage: this.form.idimage
+
+        }/*, {emulateJSON:true}*/).then((response) => {
+
+          // s'execute si l'appel fonctionne bien
+          this.messagesPost = []
+
+          // si les infos on bien été mises a jour
+          if(response.body.validation == false){
+            // changement de couleur pour la zonne d'erreurs
+            this.failsPost = "true"
+            // liste tous les messages renvoyés par le serveur
+            for(let error in response.data.messages){
+              this.messagesPost.push(response.data.messages[error][0])
+            }
+          } else {
+            // si le nouveau post n'est pas ajouté
+            this.failsPost = "false"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.data.messages){
+              this.messagesPost.push(response.data.messages[error][0])
+            }
+
+            // je redirige l'utilisateur a la page d'acceuil
+            this.$router.push('/myposts')
+          }
+        }, (response) => {
+          // si la requete au serveur a échoué
+          this.messagesName = []
+          console.log('Le serveur est momentanément indisponible')
+          this.messagesName.push('Erreur lors de la requète.')
         })
       }
     }

@@ -8,13 +8,13 @@
   <div class="post">
 
       <div class="post-image">
-        <router-link :to="{name: 'Post', params: { id: post.slug }}">
+        <router-link :to="{name: 'Post', params: { slug: post.slug }}">
           <img :src="post.poster.url" :alt="post.title">
         </router-link>
       </div>
 
       <div class="post-text">
-        <router-link :to="{name: 'Post', params: { id: post.slug }}">
+        <router-link :to="{name: 'Post', params: { slug: post.slug }}">
           <h2>{{ post.title }}</h2>
           <p class="date">{{ post.date }}</p>
         </router-link>

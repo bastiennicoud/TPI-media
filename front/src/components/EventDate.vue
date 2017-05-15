@@ -7,7 +7,7 @@
 <template>
   <div class="eventdate">
 
-    <router-link :to="{name: 'Post', params: { id: date.slug }}">
+    <router-link :to="{name: 'Post', params: { slug: date.slug }}">
       <p><strong>{{date.date}}</strong></p>
       <p>{{date.title}}</p>
     </router-link>
