@@ -8,15 +8,19 @@
   <div class="post">
 
       <div class="post-image">
-        <img src="/ressources/posters/affiche.jpg" alt="L'affiche du post">
+        <router-link :to="{name: 'Post', params: { id: post.slug }}">
+          <img :src="post.poster.url" :alt="post.title">
+        </router-link>
       </div>
 
       <div class="post-text">
-        <h2>Soirée JAM</h2>
-        <p class="date">28 avril 2017</p>
+        <router-link :to="{name: 'Post', params: { id: post.slug }}">
+          <h2>{{ post.title }}</h2>
+          <p class="date">{{ post.date }}</p>
+        </router-link>
         <span></span>
-        <p><strong>Pour sa 5ème soirée JAM de l'année, le conservatoire vous fais découvrir les musiques typiques...</strong></p>
-        <p class="infos">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p><strong>{{ post.hat }}</strong></p>
+        <p class="infos">{{ post.content }}</p>
       </div>
 
   </div>
@@ -27,7 +31,8 @@
 <!-- script contient tout le script lié au composant -->
 <script>
   export default {
-    name: 'post'
+    name: 'post',
+    props: ['post'],
   }
 </script>
 
@@ -72,10 +77,12 @@
 
       padding-left: 5px;
 
+      
       h2{
         width: 60%;
         margin: 0px;
         font-size: 24px;
+        text-decoration: none;
       }
 
       .date{

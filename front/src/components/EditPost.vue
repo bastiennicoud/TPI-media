@@ -11,7 +11,7 @@
 
       <div class="post-input-box">
 
-        <h1>Editez {{form.title}} </h1>
+        <h1>Editez {{ form.title }} </h1>
 
         <div class="post-datas">
 

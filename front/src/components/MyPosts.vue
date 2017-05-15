@@ -14,7 +14,7 @@
         <h1>Mes posts</h1>
 
         <!-- pour chaque post je crée un composant post-edit -->
-        <post-edit v-for="post in posts" :post="post" :key="post.id"></post-edit>
+        <post-edit v-for="post in posts" :post="post" :key="post.id" v-on:deletedPost="hideDeleted"></post-edit>
 
       </div>
 
@@ -48,7 +48,22 @@
         // appel ajax en POST grace a Vue-Resource
         this.$http.get('/rest/postsuser').then((response) => {
 
-          // s'execute si l'appel fonctionne bien
+          // si l'appel fonctionne bien, on transfere les posts recu aux composant
+          this.posts = response.data
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      },
+      // cette methode est appelé si on supprime un post
+      hideDeleted (id) {
+        // appel ajax en POST grace a Vue-Resource
+        // on va recharger les posts
+        this.$http.get('/rest/postsuser').then((response) => {
+
+          // si l'appel fonctionne bien, on transfere les posts recu aux composant
           this.posts = response.data
 
         }, (response) => {

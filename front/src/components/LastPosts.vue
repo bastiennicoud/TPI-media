@@ -14,12 +14,7 @@
         <h1>Derniers posts</h1>
 
         <!-- le composant post affiche les posts -->
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
-        <post></post>
+        <post v-for="post in posts" :post="post" :key="post.id"></post>
 
       </div>
 
@@ -37,7 +32,32 @@
 
   export default {
     name: 'lastPosts',
-    components: { post }
+    components: { post },
+    data () {
+      return {
+        posts: {}
+      }
+    },
+    created () {
+      // apele la methode chargée de charger les posts lorsque le composant est crée
+      this.getDatas()
+    },
+    methods: {
+      // charge tous les posts de l'utilisateur connecté
+      getDatas () {
+        // appel ajax en POST grace a Vue-Resource
+        this.$http.get('/rest/posts').then((response) => {
+
+          // si l'appel fonctionne bien, on transfere les posts recu aux composant
+          this.posts = response.data
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      }
+    }
   }
 </script>
 

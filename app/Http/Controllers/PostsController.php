@@ -19,13 +19,34 @@ class PostsController extends Controller
 {
 
   /**
-   * Renvoie a l'utilisateur tous les posts
+   * Renvoie a l'utilisateur tous les posts par ordre de création
+   * Derniers posts ajoutés en premier
    *
    * @return Response
    */
   public function getposts(Request $request) {
 
-    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->limit(10)->get();
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->orderBy('created_at', 'desc')->limit(10)->get();
+
+    foreach ($posts as $key => $value) {
+      $parts = explode(' ', $value->date);
+      $value->date = $parts[0];
+    }
+
+    return response()->json($posts);
+  }
+
+
+
+  /**
+   * Renvoie a l'utilisateur tous les posts par ordre de création
+   * Derniers posts ajoutés en premier
+   *
+   * @return Response
+   */
+  public function getpostsbydate(Request $request) {
+
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->whereRaw("date > NOW()")->orderBy('date', 'asc')->limit(10)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);

@@ -40,10 +40,13 @@
       },
       deletePost () {
         // appel ajax en POST grace a Vue-Resource
+        // on lui passe l'id du post a supprimer
         this.$http.delete('/rest/post/' + this.post.id).then((response) => {
 
-          // s'execute si l'appel fonctionne bien
-          this.$destroy(this)
+          // si la ressource est bien supprimée, j'emmet un evenement de nom close
+          // le composant parent va pouvoir le détecter et mettre a jour la vue
+          // pour suprimer le post qui viend d'étre supprimé
+          this.$emit('deletedPost')
 
         }, (response) => {
 
