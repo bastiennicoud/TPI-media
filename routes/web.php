@@ -76,11 +76,13 @@ Route::group(['prefix' => 'rest'], function () {
 
   // renvoie un JSON avec le post demandé
   Route::get('post/{postId}', 'PostsController@getpost');
-  // renvoie un JSON avec le post demandé (mais avec comme parametre le slug)
+  // renvoie un JSON avec le post demandé avec commentaires (mais avec comme parametre le slug)
   Route::get('postslug/{postSlug}', 'PostsController@getpostslug');
-
+  // renvoie les commentaires
+  Route::get('getcomments/{postId}', 'PostController@getcomments');
+  
   // ajoute un commentaire au post passé en paramètre
-  Route::post('newcomment/{postId}', 'PostsController@newcomment');
+  Route::post('newcomment', 'PostsController@newcomment');
 
   // Création d'un nouveau post (article)
   Route::post('post', 'PostsController@newpost');

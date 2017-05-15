@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+
+  /**
+   * Definis les attributs editables massivement
+   *
+   * @var array
+   */
+  protected $fillable = [
+      'content', 'user_id', 'post_id'
+  ];
+
   /**
   * Permet d'obtenir le post lié
   */

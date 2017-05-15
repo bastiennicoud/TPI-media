@@ -7,12 +7,12 @@
 <template>
   <div class="comment">
 
-    <img src="/ressources/profilephotos/lego.jpg" alt="Photo de profile">
+    <img :src="comment.user.image" :alt="comment.user.name">
 
     <div class="comment-text">
-      <p>Bastien Nicoud</p>
-      <p class="comment-content">Un commentaire bidon pour mettre en page mes commentaires</p>
-      <p>Posté le 28.2.2</p>
+      <p>{{comment.user.name}}</p>
+      <p class="comment-content">{{comment.content}}</p>
+      <p>{{comment.created_at}}</p>
     </div>
 
   </div>

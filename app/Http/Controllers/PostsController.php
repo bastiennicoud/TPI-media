@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Post;
+use App\Comment;
 
 class PostsController extends Controller
 {
@@ -124,15 +125,39 @@ class PostsController extends Controller
    */
   public function getpostslug(Request $request, $postSlug) {
 
-    $posts = Post::with('poster', 'comments')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('slug', $postSlug)->get();
+    $posts = Post::with('poster', 'comments.user')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('slug', $postSlug)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);
       $value->date = $parts[0];
     }
 
+    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
+
     return response()->json($posts);
   }
+
+
+
+  /**
+   * Renvoie a l'utilisateur le post demandé en id
+   *
+   * @return Response
+   */
+  public function getcomments(Request $request, $postId) {
+
+    $posts = Post::with('poster', 'comments.user')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('slug', $postSlug)->get();
+
+    foreach ($posts as $key => $value) {
+      $parts = explode(' ', $value->date);
+      $value->date = $parts[0];
+    }
+
+    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
+
+    return response()->json($posts);
+  }
+
 
 
 
@@ -154,70 +179,42 @@ class PostsController extends Controller
       ];
       return response()->json($newpost);
     } else {
-      // si l'utilisateur est connecté, on verifie qu'il a l'autorisation de créer un post
-      // seul les utilisateurs ayant un role un dessous de 3 peuvent créer un post
-      if(!($request->user()->role <= 2)){
+      // si l'utilisateur est connecté, on verifie que le commentaire est valide
+
+      // validation des données postées
+      $validator = Validator::make($request->all(), [
+        // le champ a valider, puis les regles de validation
+        'comment' => 'required|max:400'
+      ], [
+        // messages d'erreurs pour chaque type de validation
+        'comment.required' => "Vous n'avez pas présisé de commentaire.",
+        'comment.max' => "Un commentaire peut faire maximum 400 caractères."
+      ]);
+
+      // verification de l'etat de la validation
+      if($validator->fails() === true){
+        // si la validation a échoué ou renvoie les erreurs au client
+        // si elle a échoué, on renvoie les erreurs au client
         $newpost = [
           'validation' => false,
-          'messages' => [
-            'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
-          ]
+          'messages' => $validator->messages()
         ];
         return response()->json($newpost);
       } else {
-        // si l'utilisateur est autorisé on peut alors valider les informations
-
-        // validation des données postées
-        $validator = Validator::make($request->all(), [
-          // le champ a valider, puis les regles de validation
-          'title' => 'required|unique:posts|max:60',
-          'date' => 'required',
-          'hat' => 'required|max:200',
-          'body' => 'required',
-          'idimage' => 'required'
-        ], [
-          // messages d'erreurs pour chaque type de validation
-          'title.required' => "Vous devez présiser un titre a votre événement.",
-          'title.unique' => "Un evenement portant ce nom existe déja.",
-          'title.max' => "Le titre d'un événement peut faire au maximum 60 carctères",
-          'date.required' => "Vous devez présiser un date a votre événement",
-          'hat.required' => "Vous devez présiser un chapeau a votre événement",
-          'hat.max' => "Le chapeau peut faire maximum 200 caractères",
-          'body.required' => "Vous devez ajouter une description a votre événement",
-          'idimage.required' => "Vous devez ajouter une affiche a votre événement"
+        // si la validation est réussie on peut enregistrer le nouveau post
+        Comment::create([
+          'content' => $request->input('comment'),
+          'post_id' => $request->input('post'),
+          'user_id' => $request->user()->id
         ]);
 
-        // verification de l'etat de la validation
-        if($validator->fails() === true){
-          // si la validation a échoué ou renvoie les erreurs au client
-          // si elle a échoué, on renvoie les erreurs au client
-          $newpost = [
-            'validation' => false,
-            'messages' => $validator->messages()
-          ];
-          return response()->json($newpost);
-        } else {
-          // si la validation est réussie on peut enregistrer le nouveau post
-          Post::create([
-            'title' => $request->input('title'),
-            'slug' => str_slug($request->input('title')),
-            'date' => $request->input('date'),
-            'hat' => $request->input('hat'),
-            'content' => $request->input('body'),
-            'online' => 0,
-            'user_id' => $request->user()->id,
-            'poster_id' => $request->input('idimage')
-          ]);
-
-          $newpost = [
-            'validation' => true,
-            'messages' => [
-              'post' => [0 => "Votre post a correctement été ajouté."]
-            ]
-          ];
-          return response()->json($newpost);
-        }
-
+        $newpost = [
+          'validation' => true,
+          'messages' => [
+            'post' => [0 => "Votre post a correctement été ajouté."]
+          ]
+        ];
+        return response()->json($newpost);
       }
     }
   }

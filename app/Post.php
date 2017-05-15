@@ -33,11 +33,11 @@ class Post extends Model
   }
 
   /**
-  * Permet d'obtenir les commentaires liés au post
-  */
+   * Get all of the posts for the country.
+   */
   public function comments()
   {
-    return $this->hasMany('App\Comment');
+      return $this->hasMany('App\Comment');
   }
 
 }

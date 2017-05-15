@@ -84,12 +84,12 @@
     },
     created () {
       // apele la methode chargée de charger les posts lorsque le composant est crée
-      this.getDatas()
+      this.getPost()
     },
     methods: {
       // charge tous les posts de l'utilisateur connecté
-      getDatas () {
-        // appel ajax en POST grace a Vue-Resource
+      getPost () {
+        // appel ajax pour récuperer le post concerné
         this.$http.get('/rest/postslug/' + this.slug).then((response) => {
 
           // si l'appel fonctionne bien, on transfere les posts recu aux composant
@@ -104,47 +104,58 @@
 
         })
       },
+      // charge tous les posts de l'utilisateur connecté
+      getComments () {
+        // appel ajax pour récuperer le post concerné
+        this.$http.get('/rest/getComments/' + this.post.id).then((response) => {
+
+          // si l'appel fonctionne bien, on transfere les posts recu aux composant
+          //console.log(response.data)
+          this.comments = response.data[0].comments
+          //console.log(this.post)
+
+        }, (response) => {
+
+          console.log('Erreur lors de la requète au serveur')
+
+        })
+      },
       addcomment () {
-        console.log('addcoment')
         // appel ajax en POST grace a Vue-Resource
-        this.$http.post('/rest/post', {
+        this.$http.post('/rest/newcomment', {
 
           // les différentes valeurs a transmetre
-          title: this.form.title,
-          date: this.form.date,
-          hat: this.form.hat,
-          body: this.form.body,
-          idimage: this.form.idimage
+          comment: this.newcomment,
+          post: this.post.id
 
         }/*, {emulateJSON:true}*/).then((response) => {
 
           // s'execute si l'appel fonctionne bien
-          this.messagesPost = []
+          this.messagesComment = []
 
           // si les infos on bien été mises a jour
           if(response.body.validation == false){
             // changement de couleur pour la zonne d'erreurs
-            this.failsPost = "true"
+            this.failsComment = "true"
             // liste tous les messages renvoyés par le serveur
             for(let error in response.data.messages){
-              this.messagesPost.push(response.data.messages[error][0])
+              this.messagesComment.push(response.data.messages[error][0])
             }
           } else {
             // si le nouveau post n'est pas ajouté
-            this.failsPost = "false"
+            this.failsComment = "false"
             // liste les erreurs renvoyées par le serveur
             for(let error in response.data.messages){
-              this.messagesPost.push(response.data.messages[error][0])
+              this.messagesComment.push(response.data.messages[error][0])
             }
-
-            // je redirige l'utilisateur a la page d'acceuil
-            this.$router.push('/myposts')
+            this.getComments()
           }
         }, (response) => {
           // si la requete au serveur a échoué
-          this.messagesName = []
+          this.failsComment = "true"
+          this.messagesComment = []
           console.log('Le serveur est momentanément indisponible')
-          this.messagesName.push('Erreur lors de la requète.')
+          this.messagesComment.push('Erreur lors de la requète.')
         })
       }
     }
@@ -258,6 +269,38 @@
         display: flex;
         flex-wrap: wrap;
         align-content: flex-start;
+
+        .errorsmessage{
+          width: 100%;
+          padding: 10px;
+          background-color: #e74c3c;
+
+          ul{
+            margin: 0px;
+            padding-left: 17px;
+            li{
+              margin: 3px;
+              list-style: disc;
+              font-family: 'DIN-alternate-medium';
+            }
+          }
+        }
+
+        .successmessage{
+          width: 100%;
+          padding: 10px;
+          background-color: #27ae60;
+
+          ul{
+            margin: 0px;
+            padding-left: 17px;
+            li{
+              margin: 3px;
+              list-style: disc;
+              font-family: 'DIN-alternate-medium';
+            }
+          }
+        }
 
         h2{
           font-size: 24px;
