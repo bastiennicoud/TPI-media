@@ -15,6 +15,9 @@
 
         <!-- pour chaque post je crée un composant post-edit -->
         <post-edit v-for="post in posts" :post="post" :key="post.id" v-on:deletedPost="hideDeleted"></post-edit>
+        <div class="noposts" v-if="!posts[0]">
+          <h2>Vous n'avez pas encore ajouté d'événements</h2>
+        </div>
 
       </div>
 
@@ -106,6 +109,10 @@
           &:nth-child(even){
             background-color: $creme;
           }
+        }
+        .noposts{
+          background-color: $creme;
+          padding: 10px;
         }
       }
 

@@ -28,12 +28,12 @@
 
           <div class="input-group">
             <label for="username">Votre nom d'utilisateur</label>
-            <input id="username" type="text" name="username" v-model="form.name" placeholder="Nom d'utilisateur">
+            <input id="username" type="text" name="username" v-on:keyup.enter="submit" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group">
             <label for="password">Votre mot de passe</label>
-            <input id="password" type="password" name="password" v-model="form.password" placeholder="Mot de passe">
+            <input id="password" type="password" name="password" v-on:keyup.enter="submit" v-model="form.password" placeholder="Mot de passe">
           </div>
 
           <!--<div class="input-group">

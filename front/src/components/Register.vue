@@ -28,22 +28,22 @@
 
           <div class="input-group" :class="status.name">
             <label for="username">C'est ce nom qui sera visible sur le site</label>
-            <input id="username" type="text" name="username" v-model="form.name" placeholder="Nom d'utilisateur">
+            <input id="username" type="text" name="username" v-on:keyup.enter="submit" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group" :class="status.email">
             <label for="email">Une adresse e-mail valide</label>
-            <input id="email" type="email" name="email" v-model="form.email" placeholder="E-mail">
+            <input id="email" type="email" name="email" v-on:keyup.enter="submit" v-model="form.email" placeholder="E-mail">
           </div>
 
           <div class="input-group" :class="status.password">
             <label for="password">Mot de passe (8 caractéres minimum)</label>
-            <input id="password" type="password" name="password" v-model="form.password" placeholder="Mot de passe">
+            <input id="password" type="password" name="password" v-on:keyup.enter="submit" v-model="form.password" placeholder="Mot de passe">
           </div>
 
           <div class="input-group" :class="status.password_confirmation">
             <label for="password_confirmation">Confirmez votre mot de passe</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" v-model="form.password_confirmation" placeholder="Mot de passe">
+            <input id="password_confirmation" type="password" name="password_confirmation" v-on:keyup.enter="submit" v-model="form.password_confirmation" placeholder="Mot de passe">
           </div>
 
           <div class="input-group input-group-lg">

@@ -113,7 +113,7 @@
           date: "",
           hat: "",
           body: "",
-          idimage: "2"
+          idimage: ""
         },
         // pour gerer les différentes erreurs
         failsPost: "nosubmit",

@@ -13,6 +13,42 @@
 
         <h1>Mes informations</h1>
 
+        <h2>Photo de profile</h2>
+
+        <!-- Ajout d'une photo de profil -->
+        <div class="post-datas">
+
+          <div v-if="failsImage == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsImage == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+
+          <p id="label-drag-n-drop">Ajoutez une belle photo de profil max 1mo</p>
+
+          <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
+          <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
+
+            <template slot="clip-uploader-action">
+              <div>
+                <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
+              </div>
+            </template>
+
+            <template slot="clip-uploader-body" scope="props">
+              <div v-for="file in props.files">
+                <img v-bind:src="file.dataUrl" />
+              </div>
+            </template>
+
+          </vue-clip>
+        </div>
+
         <h2>Modifier votre nom d'utilisateur</h2>
 
         <div class="post-datas">
@@ -99,42 +135,6 @@
             <button type="button" name="submitpassword" v-on:click="submitPassword">Modifier le mot de passe</button>
           </div>
 
-        </div>
-
-        <h2>Photo de profile</h2>
-
-        <!-- Ajout d'une photo de profil -->
-        <div class="post-datas">
-
-          <div v-if="failsImage == 'true'" class="errorsmessage">
-            <ul>
-              <li v-for="message in messagesImage">{{ message }}</li>
-            </ul>
-          </div>
-          <div v-else-if="failsImage == 'false'" class="successmessage">
-            <ul>
-              <li v-for="message in messagesImage">{{ message }}</li>
-            </ul>
-          </div>
-
-          <p id="label-drag-n-drop">Ajoutez une belle photo de profil max 1mo</p>
-
-          <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
-          <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
-
-            <template slot="clip-uploader-action">
-              <div>
-                <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
-              </div>
-            </template>
-
-            <template slot="clip-uploader-body" scope="props">
-              <div v-for="file in props.files">
-                <img v-bind:src="file.dataUrl" />
-              </div>
-            </template>
-
-          </vue-clip>
         </div>
 
       </div>

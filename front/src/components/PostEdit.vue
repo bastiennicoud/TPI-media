@@ -149,7 +149,7 @@
           border-radius: 0px;
           border: none;
 
-          margin: 0px auto;
+          margin: 10px auto;
           padding: 10px 20px;
 
           color: $grisFonce;

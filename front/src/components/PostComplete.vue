@@ -75,7 +75,11 @@
     components: { Comment },
     data () {
       return {
-        post: {},
+        post: {
+          poster:{
+            url: ""
+          }
+        },
         comments: {},
         newcomment: "",
         failsComment: "nosubmit",
