@@ -97,7 +97,7 @@ class ImagesController extends Controller
 
 
       // on ecris dans la base de donné le chemin de la nouvele image
-      $poster = Poster::create(['url' => 'ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension()]);
+      $poster = Poster::create(['url' => '/ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension()]);
 
       // on retourne au client les infos
       $userupdate = [
