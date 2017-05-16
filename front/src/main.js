@@ -43,6 +43,13 @@ const router = new VueRouter({
 
   },{
 
+    // Affiche les derniers articles (date d'ajout)
+    path: '/pastposts',
+    name: 'PastPosts',
+    component: resolve => require(['./components/PastPosts.vue'], resolve)
+
+  },{
+
     // Page consulter un article
     path: '/post/:slug',
     name: 'Post',

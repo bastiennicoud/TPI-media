@@ -19,7 +19,7 @@
         <span></span>
         <p><strong>{{ post.hat }}</strong></p>
         <p class="infos">{{ post.content }}</p>
-        <iframe v-if="post.video" v-bind:src="post.video" frameborder="0" allowfullscreen></iframe>
+        <iframe v-if="post.video" v-bind:src="'https://www.youtube.com/embed/' + post.video" frameborder="0" allowfullscreen></iframe>
       </div>
 
     </div>
@@ -121,7 +121,7 @@
         // les options pour le composant d'upload
         options: {
           url: '/rest/addcommentimage',
-          paramName: 'poster',
+          paramName: 'image',
           uploadMultiple: 0,
           maxFilesize: {
             limit: 1,
@@ -144,7 +144,6 @@
           //console.log(response.data)
           this.post = response.data[0]
           this.comments = response.data[0].comments
-          console.log(response.data)
 
         }, (response) => {
 

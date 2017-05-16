@@ -143,11 +143,11 @@ class ImagesController extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         })
-        ->save('/ressources/images/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension(), 80);
+        ->save('ressources/images/' . $hash . '.' . $request->file('image')->getClientOriginalExtension(), 80);
 
 
       // on ecris dans la base de donné le chemin de la nouvele image
-      $image = Image::create(['url' => '/ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension()]);
+      $image = Image::create(['url' => '/ressources/images/' . $hash . '.' . $request->file('image')->getClientOriginalExtension()]);
 
       // on retourne au client les infos
       $userupdate = [

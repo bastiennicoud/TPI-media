@@ -68,6 +68,8 @@ Route::group(['prefix' => 'rest'], function () {
 
   // renvoie un JSON avec les 10 derniers posts ordre de création
   Route::get('posts', 'PostsController@getposts');
+  // renvoie un JSON avec les 10 derniers evenements qui ont eu lieu
+  Route::get('pastposts', 'PostsController@getpastposts');
   // renvoie un JSON avec les 10 derniers posts ordre des prochaines soirées
   Route::get('postsbydate', 'PostsController@getpostsbydate');
   // renvoie un JSON avec les posts de l'utilisateur connecté

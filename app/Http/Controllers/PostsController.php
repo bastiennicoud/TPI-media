@@ -40,6 +40,25 @@ class PostsController extends Controller
 
 
   /**
+   * Renvoie a l'utilisateur tous les posts qui on eu lieu
+   *
+   * @return Response
+   */
+  public function getpastposts(Request $request) {
+
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->whereRaw("date < NOW()")->limit(10)->get();
+
+    foreach ($posts as $key => $value) {
+      $parts = explode(' ', $value->date);
+      $value->date = $parts[0];
+    }
+
+    return response()->json($posts);
+  }
+
+
+
+  /**
    * Renvoie a l'utilisateur tous les posts par date
    * Derniers posts ajoutés en premier
    *
@@ -285,7 +304,7 @@ class PostsController extends Controller
           return response()->json($newpost);
         } else {
           // si la validation est réussie on peut enregistrer le nouveau post
-          $video = "https://www.youtube.com/embed/" . $request->input('video');
+          //$video = "https://www.youtube.com/embed/" . $request->input('video');
           Post::create([
             'title' => $request->input('title'),
             'slug' => str_slug($request->input('title')),
@@ -295,7 +314,7 @@ class PostsController extends Controller
             'online' => 0,
             'user_id' => $request->user()->id,
             'poster_id' => $request->input('idimage'),
-            'video' => $video
+            'video' => $request->input('video')
           ]);
 
           $newpost = [
@@ -383,7 +402,7 @@ class PostsController extends Controller
           return response()->json($newpost);
         } else {
           // si la validation est réussie on peut enregistrer le nouveau post
-          $video = "https://www.youtube.com/embed/" . $request->input('video');
+          //$video = "https://www.youtube.com/embed/" . $request->input('video');
           Post::where('id', $postId)->update([
             'title' => $request->input('title'),
             'slug' => str_slug($request->input('title')),
@@ -393,7 +412,7 @@ class PostsController extends Controller
             'online' => 0,
             'user_id' => $request->user()->id,
             'poster_id' => $request->input('idimage'),
-            'video' => $video
+            'video' => $request->input('video')
           ]);
 
           $newpost = [

@@ -157,7 +157,7 @@
           this.form.hat = response.data[0].hat
           this.form.body = response.data[0].content
           this.form.idimage = response.data[0].poster.id
-          this.form.video = response.data[0].poster.video
+          this.form.video = response.data[0].video
 
         }, (response) => {
 

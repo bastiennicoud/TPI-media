@@ -11,7 +11,8 @@
 
       <div id="navlinks">
         <router-link class="space" :to="{name: 'Home'}">Acceuil</router-link>
-        <router-link class="space" :to="{name: 'LastPosts'}">Derniers posts</router-link>
+        <router-link class="space" :to="{name: 'LastPosts'}">Derniers événements</router-link>
+        <router-link class="space" :to="{name: 'PastPosts'}">Evenements passés</router-link>
       </div>
 
       <div id="menu">
@@ -41,6 +42,7 @@
           <li class="onlysmall"><router-link :to="{name: 'LastPosts'}" v-on:click.native="toggle">Derniers posts</router-link></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscrivez-vous</router-link></li>
+          <li class="onlysmall"><span class="separator"></span></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouveau post</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes posts</router-link></li>
           <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon Profile</router-link></li>
@@ -151,7 +153,7 @@
         }
 
         .space{
-          margin-right: $defaultMg;
+          margin-right: 20px;
         }
 
         a:hover{
@@ -332,6 +334,14 @@
                 color: $blancFond;
               }
             }//a
+
+            .separator {
+              box-sizing: border-box;
+              z-index: 920;
+              height: 100px !important;
+              width: 100%;
+              background-color: red;
+            }
           }//li
 
           // masque certains lien sur les grands ecrans

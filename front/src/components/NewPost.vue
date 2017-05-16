@@ -85,7 +85,7 @@
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="texthat">Ajoutez un vidéo ! (non requis)<br>
+            <label for="video">Ajoutez un vidéo ! (non requis)<br>
               Pour l'ajout de vidéo nous utilisons le service de youtube<br>
               Visitez <router-link :to="{name: 'Videos'}" target="_blank">cette page</router-link> pour savoir comment ajouter une vidéo.
             </label>
