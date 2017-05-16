@@ -77,6 +77,8 @@ Route::group(['prefix' => 'rest'], function () {
 
   // renvoie les événements qui auront lieu durant le mois qui viens
   Route::get('events', 'PostsController@getmonthevents');
+  // renvoie les événements qui auront lieu durant la semaine
+  Route::get('postsweek', 'PostsController@getweekevents');
 
   // renvoie un JSON avec le post demandé
   Route::get('post/{postId}', 'PostsController@getpost');

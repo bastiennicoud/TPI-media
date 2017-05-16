@@ -10,9 +10,9 @@
     <div class="container">
 
       <div id="navlinks">
-        <router-link class="space" :to="{name: 'Home'}">Acceuil</router-link>
+        <router-link class="space" :to="{name: 'Home'}">Accueil</router-link>
         <router-link class="space" :to="{name: 'LastPosts'}">Derniers événements</router-link>
-        <router-link class="space" :to="{name: 'PastPosts'}">Evenements passés</router-link>
+        <router-link class="space" :to="{name: 'PastPosts'}">Evénements passés</router-link>
       </div>
 
       <div id="menu">
@@ -38,15 +38,17 @@
     <div id="navmobile" :class="{opened: open, closed: !open}">
       <div class="container-nav">
         <ul>
-          <li class="onlysmall"><router-link :to="{name: 'Home'}" v-on:click.native="toggle">Acceuil</router-link></li>
-          <li class="onlysmall"><router-link :to="{name: 'LastPosts'}" v-on:click.native="toggle">Derniers posts</router-link></li>
+          <li class="onlysmall"><router-link :to="{name: 'Home'}" v-on:click.native="toggle">Accueil</router-link></li>
+          <li class="onlysmall"><router-link :to="{name: 'LastPosts'}" v-on:click.native="toggle">Derniers événements</router-link></li>
+          <li class="onlysmall"><router-link :to="{name: 'PastPosts'}" v-on:click.native="toggle">Evénements passés</router-link></li>
+          <li class="onlysmall"><span class="separator"></span></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscrivez-vous</router-link></li>
-          <li class="onlysmall"><span class="separator"></span></li>
-          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouveau post</router-link></li>
+          <li v-if="userNotification"><router-link :to="{name: 'Notification'}" v-on:click.native="toggle">{{ userNotification }} notifications</router-link></li>
+          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouvel événement</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes posts</router-link></li>
-          <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon Profile</router-link></li>
-          <li v-if="userConnected"><a v-on:click.prevent="disconnect">Deconnexion</a></li>
+          <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon profil</router-link></li>
+          <li v-if="userConnected"><a v-on:click.prevent="disconnect">Déconnexion</a></li>
         </ul>
       </div>
     </div>
@@ -121,6 +123,9 @@
       },
       userRole () {
         return this.$store.getters.userRole
+      },
+      userNotification () {
+        return this.$store.getters.userNotification
       }
     }
   }
@@ -325,6 +330,12 @@
             &:nth-child(8){
               transition-delay: 0.35s;
             }
+            &:nth-child(9){
+              transition-delay: 0.40s;
+            }
+            &:nth-child(10){
+              transition-delay: 0.45s;
+            }
 
             // Les liens
             a{
@@ -336,11 +347,13 @@
             }//a
 
             .separator {
-              box-sizing: border-box;
+              display: block;
               z-index: 920;
-              height: 100px !important;
+              height: 2px;
               width: 100%;
-              background-color: red;
+
+              margin: 8px 0px;
+              background-color: $grisClair;
             }
           }//li
 

@@ -11,7 +11,7 @@
 
       <div id="postslist">
 
-        <h1>Evenements passés</h1>
+        <h1>Evénements passés</h1>
 
         <!-- le composant post affiche les posts -->
         <post v-for="post in posts" :post="post" :key="post.id"></post>

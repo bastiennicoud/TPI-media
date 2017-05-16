@@ -99,6 +99,7 @@
             this.$store.commit('USER_SETNAME', response.body.username)
             this.$store.commit('USER_SETPHOTO', response.body.userimage)
             this.$store.commit('USER_SETROLE', response.body.userrole)
+            this.$store.commit('USER_SETNOTIFICATION', response.body.notification)
 
             // je redirige l'utilisateur a la page d'acceuil
             this.$router.push('/')

@@ -13,7 +13,7 @@
 
         <h1>Mes informations</h1>
 
-        <h2>Photo de profile</h2>
+        <h2>Photo de profil</h2>
 
         <!-- Ajout d'une photo de profil -->
         <div class="post-datas">
@@ -29,14 +29,14 @@
             </ul>
           </div>
 
-          <p id="label-drag-n-drop">Ajoutez une belle photo de profil max 1mo</p>
+          <p id="label-drag-n-drop">Ajouter une photo de profil (maximum 1Mo)</p>
 
           <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
           <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
 
             <template slot="clip-uploader-action">
               <div>
-                <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre image</p></div>
+                <div class="dz-message"><p>Cliquez ou déposez pour ajouter votre photo</p></div>
               </div>
             </template>
 
@@ -117,12 +117,12 @@
           </div>
 
           <div class="input-group">
-            <label for="password_old">Votre actuel mot de passe</label>
+            <label for="password_old">Ancien mot de passe</label>
             <input id="password_old" type="password" name="password_old" v-model="form.password_old" placeholder="Mot de passe">
           </div>
 
           <div class="input-group">
-            <label for="password">Nouveau mot de passe (8 caractéres minimum)</label>
+            <label for="password">Nouveau mot de passe (6 caractères minimum)</label>
             <input id="password" type="password" name="password" v-model="form.password" placeholder="Mot de passe">
           </div>
 

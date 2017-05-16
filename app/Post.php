@@ -1,5 +1,12 @@
 <?php
 
+// -----------------------------------------------------------------------------
+// Model Post
+//
+// Ce model va permettre d'intéragir avec la table posts (en utilisant,
+// eloquent, l'ORM de laravel)
+// -----------------------------------------------------------------------------
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +24,7 @@ class Post extends Model
   ];
 
   /**
-  * Permet d'obtenir la photo coresspondant au post
+  * Permet d'indiquer la liaison avec un poster
   */
   public function poster()
   {
@@ -25,7 +32,7 @@ class Post extends Model
   }
 
   /**
-  * Permet d'obtenir l'utilisateur correspondant au post'
+  * Permet d'indiquer la liaison avec un utilisateur
   */
   public function user()
   {
@@ -33,11 +40,20 @@ class Post extends Model
   }
 
   /**
-   * Get all of the posts for the country.
+   * Permet d'indiquer la liaison avec des commentaires
    */
   public function comments()
   {
       return $this->hasMany('App\Comment');
   }
 
+  /**
+  * Mets en forme automatiquement la date
+  */
+  public function getDateAttribute($attribute)
+  {
+    setlocale(LC_TIME, "fr_FR");
+    // permet de retouner la date sous forme de "Mardi 19 mai 1017"
+    return ucfirst(strftime('%A %d %B %Y', strtotime($attribute)));
+  }
 }

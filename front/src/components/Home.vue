@@ -9,6 +9,7 @@
 
     <div class="container">
 
+      <!-- Je charge 2 sous composants -->
       <information-bar></information-bar>
 
       <posts-bar></posts-bar>

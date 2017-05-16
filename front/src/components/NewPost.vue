@@ -11,7 +11,7 @@
 
       <div class="post-input-box">
 
-        <h1>Créez un nouvel événement</h1>
+        <h1>Créer un nouvel événement</h1>
 
         <div class="post-datas">
 
@@ -27,25 +27,25 @@
           </div>
 
           <div class="input-group">
-            <label for="title">Titre de l'événement (60 caractéres)</label>
+            <label for="title">Titre de l'événement (maximum 60 caractères)</label>
             <input id="title" type="text" name="title" v-model="form.title" placeholder="Titre">
           </div>
 
           <div class="input-group">
-            <label for="date">Date de votre événement</label>
+            <label for="date">Date de l'événement</label>
             <input id="date" type="date" v-model="form.date" name="date">
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="texthat">Une accroche succinte a votre événement (env 2 lignes)</label>
-            <textarea id="texthat" name="texthat" rows="3" cols="80" v-model="form.hat" placeholder="Chapeau de votre post."></textarea>
+            <label for="texthat">Accroche succincte à votre événement (environ 2 lignes)</label>
+            <textarea id="texthat" name="texthat" rows="3" cols="80" v-model="form.hat" placeholder="Chapeau de votre événment"></textarea>
           </div>
 
         </div>
 
         <div class="post-datas">
 
-          <p id="label-drag-n-drop">Ajoutez une affiche pour votre événement max 1mo</p>
+          <p id="label-drag-n-drop">Ajouter une affiche pour votre événement (max 1Mo)</p>
 
           <div v-if="failsImage == 'true'" class="errorsmessage">
             <ul>
@@ -81,19 +81,19 @@
 
           <div class="input-group input-group-lg">
             <label for="content">Une description plus détaillée de votre événement</label>
-            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="La description de votre événement"></textarea>
+            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="Description de votre événement"></textarea>
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="video">Ajoutez un vidéo ! (non requis)<br>
-              Pour l'ajout de vidéo nous utilisons le service de youtube<br>
+            <label for="video">Ajouter un vidéo (non requis)<br>
+              Pour l'ajout de vidéo nous utilisons le service Youtube.<br>
               Visitez <router-link :to="{name: 'Videos'}" target="_blank">cette page</router-link> pour savoir comment ajouter une vidéo.
             </label>
-            <input id="video" type="text" v-model="form.video" name="video" placeholder="Le lien vers votre vidéo youtube">
+            <input id="video" type="text" v-model="form.video" name="video" placeholder="Lien vers votre vidéo Youtube">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="button" v-on:click="submit">Ajouter l'article</button>
+            <button type="button" name="button" v-on:click="submit">Ajouter l'événement</button>
           </div>
 
         </div>

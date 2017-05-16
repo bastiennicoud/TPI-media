@@ -143,6 +143,7 @@
     },
     created () {
       // apele la methode chargée de charger les posts lorsque le composant est crée
+      // on récupere comme ça toutes les infos du post que l'on veut créer
       this.getPost()
     },
     methods: {

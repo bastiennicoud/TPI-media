@@ -21,6 +21,7 @@
 <script>
   export default {
     name: 'eventDate',
+    // les propriétes sont fournies par le composant parent lors de la génération de ce composant
     props: ['date']
   }
 </script>

@@ -8,6 +8,7 @@ avec l'utilisation de Vue.js
 ### Doosiers
 * **assets** Contient les fichiers utilisés par l'app (images, logos)
 * **components** Contient tous les composants de l'application
+* **stores** Contient les stores de mon application (extension Vue X)
 * **style** Contient le style global a toute mon application (en scss)
 ### Fichiers
 * **App.vue** Le composant principal de mon application depuis lequel les autres seronts appelés

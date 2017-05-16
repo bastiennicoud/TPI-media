@@ -1,5 +1,5 @@
-<!-- Composant NewPost -->
-<!-- Représente la page d'édition d'un nouvel article -->
+<!-- Composant AddVidéo -->
+<!-- Représente la page d'explication de la méthodologie pour ajouter une vidéo -->
 
 
 
@@ -13,7 +13,7 @@
 
         <h1>Comment ajouter une vidéo</h1>
         <div class="infos">
-          <p>Si vous souhaitez ajouter une vidéo a un de vos posts, certaines étapes sont nésaisaires.</p>
+          <p>Si vous souhaitez ajouter une vidéo à un de vos événements, certaines étapes sont nésaisaires.</p>
           <ul>
             <li>En premier il vous faut mettre en ligne votre vidéo sur youtube, avec un compte google.</li>
             <li>Une fois la vidéo en ligne, rendez vous sur la page de visionage de la vidéo.</li>

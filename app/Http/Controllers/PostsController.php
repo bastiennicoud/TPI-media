@@ -9,12 +9,14 @@
 
 namespace App\Http\Controllers;
 
+// on indique les différents namespaces qui vont être utilisés par le controller
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Post;
 use App\Comment;
+use Carbon\Carbon;
 
 class PostsController extends Controller
 {
@@ -22,18 +24,12 @@ class PostsController extends Controller
   /**
    * Renvoie a l'utilisateur tous les posts par ordre de création
    * Derniers posts ajoutés en premier
-   *
+   * @param object Request
    * @return Response
    */
-  public function getposts(Request $request) {
-
+  public function getposts(Request $request)
+  {
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->orderBy('created_at', 'desc')->limit(10)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
     return response()->json($posts);
   }
 
@@ -41,18 +37,12 @@ class PostsController extends Controller
 
   /**
    * Renvoie a l'utilisateur tous les posts qui on eu lieu
-   *
+   * @param object Request
    * @return Response
    */
-  public function getpastposts(Request $request) {
-
+  public function getpastposts(Request $request)
+  {
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->whereRaw("date < NOW()")->limit(10)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
     return response()->json($posts);
   }
 
@@ -61,18 +51,12 @@ class PostsController extends Controller
   /**
    * Renvoie a l'utilisateur tous les posts par date
    * Derniers posts ajoutés en premier
-   *
+   * @param object Request
    * @return Response
    */
-  public function getpostsbydate(Request $request) {
-
+  public function getpostsbydate(Request $request)
+  {
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->whereRaw("date > NOW()")->orderBy('date', 'asc')->limit(10)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
     return response()->json($posts);
   }
 
@@ -81,18 +65,26 @@ class PostsController extends Controller
   /**
    * Renvoie a l'utilisateur tous evenements qui aurons lieu le mois qui viens
    * Derniers posts ajoutés en premier
-   *
+   * @param object Request
    * @return Response
    */
-  public function getmonthevents(Request $request) {
+  public function getmonthevents(Request $request)
+  {
+    $event = Post::select('title', 'slug', 'date')->where('online', 1)->whereRaw("date > NOW() and date < NOW() + INTERVAL 1 MONTH")->orderBy('date', 'asc')->limit(10)->get();
+    return response()->json($event);
+  }
 
-    $posts = Post::select('title', 'slug', 'date')->where('online', 1)->whereRaw("date > NOW() and date < NOW() + INTERVAL 1 MONTH")->orderBy('date', 'asc')->limit(10)->get();
 
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
 
+  /**
+   * Renvoie a l'utilisateur tous evenements qui aurons lieu la semaine qui suit
+   * Derniers posts ajoutés en premier
+   * @param object Request
+   * @return Response
+   */
+  public function getweekevents(Request $request)
+  {
+    $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id')->where('online', 1)->whereRaw("date > NOW() and date < NOW() + INTERVAL 1 WEEK")->limit(10)->get();
     return response()->json($posts);
   }
 
@@ -100,18 +92,12 @@ class PostsController extends Controller
 
   /**
    * Renvoie a l'utilisateur tous ces posts
-   *
+   * @param object Request
    * @return Response
    */
-  public function getpostsuser(Request $request) {
-
+  public function getpostsuser(Request $request)
+  {
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'online', 'poster_id')->where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
     return response()->json($posts);
   }
 
@@ -120,18 +106,13 @@ class PostsController extends Controller
 
   /**
    * Renvoie a l'utilisateur le post demandé en id
-   *
+   * @param object Request
+   * @param int Id du post à retourner
    * @return Response
    */
-  public function getpost(Request $request, $postId) {
-
+  public function getpost(Request $request, $postId)
+  {
     $posts = Post::with('poster')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id', 'video')->where('id', $postId)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
     return response()->json($posts);
   }
 
@@ -139,41 +120,27 @@ class PostsController extends Controller
 
   /**
    * Renvoie a l'utilisateur le post demandé en id avec commentaires
-   *
+   * @param object Request
+   * @param string Le slug du post à retourner
    * @return Response
    */
-  public function getpostslug(Request $request, $postSlug) {
-
+  public function getpostslug(Request $request, $postSlug)
+  {
     $posts = Post::with('poster', 'comments.user', 'comments.image')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id', 'video')->where('slug', $postSlug)->get();
-
-    foreach ($posts as $key => $value) {
-      $parts = explode(' ', $value->date);
-      $value->date = $parts[0];
-    }
-
-    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
-
     return response()->json($posts);
   }
 
 
 
   /**
-   * Renvoie a l'utilisateur le post demandé en id
-   *
+   * Renvoie a l'utilisateur les commentaires du post passé en paramètre
+   * @param object Request
+   * @param int Id du post conserné
    * @return Response
    */
-  public function getcomments(Request $request, $postId) {
-
+  public function getcomments(Request $request, $postId)
+  {
     $comments = Comment::with('user', 'image')->select('content', 'created_at', 'user_id', 'image_id')->where('post_id', $postId)->get();
-
-    // foreach ($posts as $key => $value) {
-    //   $parts = explode(' ', $value->date);
-    //   $value->date = $parts[0];
-    // }
-
-    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
-
     return response()->json($comments);
   }
 
@@ -182,10 +149,11 @@ class PostsController extends Controller
 
   /**
    * Ajout d'un commentaire
-   *
+   * @param object Request
    * @return Response
    */
-  public function newcomment(Request $request) {
+  public function newcomment(Request $request)
+  {
 
     // on verifie si l'utilisateur est bien connecté
     if(!Auth::check()){
@@ -228,6 +196,7 @@ class PostsController extends Controller
           'user_id' => $request->user()->id
         ]);
 
+        // on renvoie un message si l'action c'est bien déroulée
         $newpost = [
           'validation' => true,
           'messages' => [
@@ -244,10 +213,11 @@ class PostsController extends Controller
 
   /**
    * Création d'un nouveau post
-   *
+   * @param object Request
    * @return Response
    */
-  public function newpost(Request $request) {
+  public function newpost(Request $request)
+  {
 
     // on verifie si l'utilisateur est bien connecté
     if(!Auth::check()){
@@ -261,7 +231,7 @@ class PostsController extends Controller
       return response()->json($newpost);
     } else {
       // si l'utilisateur est connecté, on verifie qu'il a l'autorisation de créer un post
-      // seul les utilisateurs ayant un role un dessous de 3 peuvent créer un post
+      // seul les utilisateurs ayant un role en dessous de 3 peuvent créer un post
       if(!($request->user()->role <= 2)){
         $newpost = [
           'validation' => false,
@@ -304,7 +274,6 @@ class PostsController extends Controller
           return response()->json($newpost);
         } else {
           // si la validation est réussie on peut enregistrer le nouveau post
-          //$video = "https://www.youtube.com/embed/" . $request->input('video');
           Post::create([
             'title' => $request->input('title'),
             'slug' => str_slug($request->input('title')),
@@ -334,10 +303,11 @@ class PostsController extends Controller
 
   /**
    * Edition d'un post
-   *
+   * @param object Request
    * @return Response
    */
-  public function editpost(Request $request, $postId) {
+  public function editpost(Request $request, $postId)
+  {
 
     // on verifie si l'utilisateur est bien connecté
     if(!Auth::check()){
@@ -352,7 +322,6 @@ class PostsController extends Controller
     } else {
       // si l'utilisateur est connecté, on verifie qu'il est propriétaire de ce post
       $post = Post::find($postId);
-      //sdd($post);
       if(!($request->user()->id == $post->user_id)){
         $newpost = [
           'validation' => false,
@@ -370,7 +339,7 @@ class PostsController extends Controller
           'title' => [
             'required',
             'max:60',
-            // rule me permet de définir un regle custom
+            // Rule:: me permet de définir un regle custom
             // ici lors de la verification que le titre est unique
             // je lui demande d'ignorer son propre titre
             Rule::unique('posts')->ignore($postId)
@@ -402,7 +371,6 @@ class PostsController extends Controller
           return response()->json($newpost);
         } else {
           // si la validation est réussie on peut enregistrer le nouveau post
-          //$video = "https://www.youtube.com/embed/" . $request->input('video');
           Post::where('id', $postId)->update([
             'title' => $request->input('title'),
             'slug' => str_slug($request->input('title')),
@@ -431,30 +399,31 @@ class PostsController extends Controller
 
   /**
    * Permet de mettee la valeur online a true ou false
-   *
+   * @param object Request
    * @return Response
    */
-  public function postonline(Request $request, $postId) {
+  public function postonline(Request $request, $postId)
+  {
 
-    // je récupere le post en question
-    $post = Post::find($postId);
-    // avec ce if je passe la valeur à l'inverse que ce qu'elle est
-    if($post->online == 0){
-      $post->online = 1;
+    // verification que l'utilisateur est loggé
+    if (Auth::check()) {
+      // si l'utilisateur est connecté, on verifie qu'il est propriétaire de ce post
+      $post = Post::find($postId);
+      if(($request->user()->id == $post->user_id)){
+        // avec ce if je passe la valeur à l'inverse que ce qu'elle est
+        if($post->online == 0){
+          $post->online = 1;
+        } else {
+          $post->online = 0;
+        }
+        $post->save();
+        return response()->json(true);
+      } else {
+        return response()->json(false);
+      }
     } else {
-      $post->online = 0;
+      return response()->json(false);
     }
-    $post->save();
-    //if($post->)
-
-    // foreach ($posts as $key => $value) {
-    //   $parts = explode(' ', $value->date);
-    //   $value->date = $parts[0];
-    // }
-
-    //$comments = Comment::with('user')->select('content', 'created_at')->where('post_id', $posts->id);
-
-    return response()->json(true);
   }
 
 
@@ -462,10 +431,11 @@ class PostsController extends Controller
 
   /**
    * Suppression d'un post
-   *
+   * @param object Request
    * @return Response
    */
-  public function deletepost(Request $request, $postId) {
+  public function deletepost(Request $request, $postId)
+  {
 
     // on verifie si l'utilisateur est bien connecté
     if(!Auth::check()){
@@ -490,7 +460,7 @@ class PostsController extends Controller
         ];
         return response()->json($newpost);
       } else {
-        // si l'utilisateur est autorisé on peut alors valider les informations
+        // si l'utilisateur est autorisé on peut alors supprimer le post
 
         // supression du post concerné
         Post::find($postId)->delete();

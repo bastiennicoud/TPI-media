@@ -8,7 +8,7 @@
   <div id="postsbar">
 
 
-      <h1>Actualité</h1>
+      <h1>Prochains événements</h1>
 
       <!-- le composant post affiche les posts -->
       <post v-for="post in posts" :post="post" :key="post.id"></post>

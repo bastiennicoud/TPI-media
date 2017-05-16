@@ -1,5 +1,5 @@
 <!-- Composant Comment -->
-<!-- Représente un mmentaire -->
+<!-- Représente un commentaire -->
 
 
 
@@ -7,6 +7,7 @@
 <template>
   <div class="comment">
 
+    <!-- les propriétés : permetent d'indiquer a vue qu'il doit remplacer le contenu de la propriété par la valeur de la variable -->
     <img :src="comment.user.image" :alt="comment.user.name">
 
     <div class="comment-text">

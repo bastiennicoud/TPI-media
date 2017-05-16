@@ -1,5 +1,5 @@
 <!-- Composant InformationBar -->
-<!-- Concerne le composant qui affiche tous les articles -->
+<!-- Concerne le composant qui affiche les dates des evénments du mois -->
 
 
 
@@ -10,8 +10,10 @@
     <p class="title">Informations</p>
 
     <div class="month-events">
-      <h2>Evenements du mois</h2>
+      <!-- Titre de la section -->
+      <h2>Evénements du mois</h2>
       <span></span>
+      <!-- on fais une boucle v-for, et pour chaque date dans l'objet dates on va générer un composant event-date en lui passant les propriétées correspondantes -->
       <event-date v-for="date in dates" :date="date" :key="date.id"></event-date>
     </div>
 
@@ -28,13 +30,15 @@
   export default {
     name: 'InformationBar',
     components: { eventDate },
+    // j eprésise les propriétes liées a ce composant
     data () {
       return {
         dates: {}
       }
     },
+    // created est appelé lorsque le composant est chargé
     created () {
-      // apele la methode chargée de charger les posts lorsque le composant est crée
+      // apele la methode chargée de charger les dates des événements
       this.getDatas()
     },
     methods: {

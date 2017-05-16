@@ -14,7 +14,7 @@
 
         <div class="infoblock">
           <p><strong>Nos locaux sont situés:</strong></p>
-          <p>Rue des Cyngnes 10</p>
+          <p>Rue des Cygnes 10</p>
           <p>1400 Yverdon-les-Bains</p>
         </div>
 
@@ -39,7 +39,7 @@
       </div>
 
       <div class="mentions">
-        <p>Réalisé dans le cadre de mon travail pratique de fin d'apprentisage.</p>
+        <p>Réalisé dans le cadre de mon travail pratique de fin d'apprentissage.</p>
         <p>Bastien Nicoud, 2017</p>
       </div>
 

@@ -30,6 +30,9 @@
         <h2>Commentaires</h2>
 
         <comment v-for="comment in comments" :comment="comment" :key="comment.id"></comment>
+        <div class="nocomments" v-if="!comments[0]">
+          <h3>Il n'y a pas encore de commentaires ! Ajouter en un !</h3>
+        </div>
 
       </div>
     </div>
@@ -353,6 +356,12 @@
         h2{
           font-size: 24px;
           margin: 10px;
+        }
+
+        .nocomments{
+          background-color: $grisClair;
+          margin: 10px;
+          padding: 10px;
         }
         .comment{
           &:nth-child(even){

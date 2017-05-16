@@ -66,6 +66,13 @@ const router = new VueRouter({
   },{
 
     // Page qui liste ses propres articles
+    path: '/notification',
+    name: 'Notification',
+    component: resolve => require(['./components/Notification.vue'], resolve)
+
+  },{
+
+    // Page qui liste ses propres articles
     path: '/myposts',
     name: 'MyPosts',
     component: resolve => require(['./components/MyPosts.vue'], resolve)

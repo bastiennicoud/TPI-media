@@ -9,12 +9,13 @@
 
 namespace App\Http\Controllers;
 
+// on indique les différents namespaces qui vont être utilisés par le controller
 use Illuminate\Http\Request;
-//use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Post;
 
 class UsersauthController extends Controller
 {
@@ -78,15 +79,19 @@ class UsersauthController extends Controller
   public function login(Request $request) {
 
     // appel de la facade de connexion de laravel
+    // la facade Auth::attempt se caharge de créeer la session pour persister la connxion ainsi que de vérifier le mot de passe
     if(Auth::attempt(['name' => $request->input('name'), 'password' => $request->input('password')])){
+      // si l'utilisateur est bien connecté on renvoie les infos de base au client pour mettre a jour la vue en conséquences
       $userinfos = [
         'connected' => true,
         'username' =>  Auth::user()->name,
         'userimage' =>  Auth::user()->image,
-        'userrole' =>  Auth::user()->role
+        'userrole' =>  Auth::user()->role,
+        'notification' => Post::where('online', 1)->whereRaw('date > NOW() and date < NOW() + INTERVAL 1 WEEK')->get()->count()
       ];
       return response()->json($userinfos);
     } else {
+      // si la connexion échoue on renvoie une réponse négative
       $userinfos = [
         'connected' => false
       ];
@@ -105,6 +110,7 @@ class UsersauthController extends Controller
   public function logged(Request $request) {
 
     // appel de la facade de verification si l'utilisateur est connecté
+    // Auth::check retourne true ou false
     return response()->json(Auth::check());
 
   }
@@ -118,20 +124,23 @@ class UsersauthController extends Controller
    */
   public function user(Request $request) {
 
-    // On va récuperer les infos de l'utilisateur
+    // On va récuperer les infos de l'utilisateur si il est connecté
     if(Auth::check()){
       $userinfos = [
         'connected' => true,
         'username' =>  $request->user()->name,
         'userimage' =>  $request->user()->image,
-        'userrole' =>  $request->user()->role
+        'userrole' =>  $request->user()->role,
+        'notification' => Post::where('online', 1)->whereRaw('date > NOW() and date < NOW() + INTERVAL 1 WEEK')->get()->count()
       ];
     } else {
+      // si l'utilisateur n'est pas connecté on renvoie les informations de base
       $userinfos = [
         'connected' => false,
         'username' =>  '',
         'userimage' =>  '/ressources/profilephotos/default.png',
-        'userrole' =>  3
+        'userrole' =>  3,
+        'notification' => 0
       ];
     }
     return response()->json($userinfos);
@@ -180,10 +189,10 @@ class UsersauthController extends Controller
         'name' => 'required|unique:users|min:6|max:100'
       ], [
         // messages d'erreurs pour chaque type de validation
-        'name.required' => 'Le nom d\'utilisateur n\'a pas été renseigné.',
-        'name.unique' => 'Ce nom d\'utilisateur existe déja.',
-        'name.min' => 'Le nom d\'utilisateur doit faire au moins 6 caractéres.',
-        'name.max' => 'Le nom d\'utilisateur peut faire maximum 100 caractéres.'
+        'name.required' => 'Le nom d\'utilisateur n\'a pas été renseigné',
+        'name.unique' => 'Ce nom d\'utilisateur existe déjà',
+        'name.min' => 'Le nom d\'utilisateur doit faire au moins 6 caractères',
+        'name.max' => 'Le nom d\'utilisateur peut faire maximum 100 caractères'
       ]);
 
       // on verifie si la validation a bien fonctionné
@@ -233,13 +242,13 @@ class UsersauthController extends Controller
       // validation des données postées
       $validator = Validator::make($request->all(), [
         // le champ a valider, puis les regles de validation
-        'email' => 'required|unique:users|min:6|max:100'
+        'email' => 'required|unique:users|email|max:100'
       ], [
         // messages d'erreurs pour chaque type de validation
-        'email.required' => 'L\'email n\'a pas été renseigné.',
-        'email.email' => 'L\'email n\'est pas valide.',
-        'email.unique' => 'Cet email est déja utilisé.',
-        'email.max' => 'L\'email peut faire maximum 200 caractéres.'
+        'email.required' => 'L\'e-mail n\'a pas été renseigné',
+        'email.email' => 'L\'e-mail n\'est pas valide',
+        'email.unique' => 'Cet e-mail est déja utilisé',
+        'email.max' => 'L\'e-mail peut faire maximum 200 caractères'
       ]);
 
       // on verifie si la validation a bien fonctionné
@@ -295,13 +304,13 @@ class UsersauthController extends Controller
       ], [
         // messages d'erreurs pour chaque type de validation
         'password_old.required' => 'L\'ancien mot de passe n\'a pas été renseigné',
-        'password_old.min' => 'Le mot de passe doit faire au moins 6 caractéres.',
-        'password_old.max' => 'Le mot de passe peut faire maximum 50 caractéres.',
-        'password.required' => 'Le mot de passe n\'a pas été renseigné.',
+        'password_old.min' => 'Le mot de passe doit faire au moins 6 caractères',
+        'password_old.max' => 'Le mot de passe peut faire maximum 50 caractères',
+        'password.required' => 'Le mot de passe n\'a pas été renseigné',
         'password.confirmed' => 'Le mot de passe n\'est pas correctement confirmé',
-        'password.min' => 'Le mot de passe doit faire au moins 6 caractéres.',
-        'password.max' => 'Le mot de passe peut faire maximum 50 caractéres.',
-        'password_confirmation.required' => 'La confirmation du mot de passe n\'a pas été renseigné.'
+        'password.min' => 'Le mot de passe doit faire au moins 6 caractères',
+        'password.max' => 'Le mot de passe peut faire maximum 50 caractères',
+        'password_confirmation.required' => 'La confirmation du mot de passe n\'a pas été renseigné'
       ]);
 
       // on verifie si la validation a bien fonctionné
@@ -314,8 +323,10 @@ class UsersauthController extends Controller
         return response()->json($userupdate);
       } else {
         // si la validation est ok
+        // on vérifie que l'ancien mot de passe est le bon
         if(Hash::check($request->input('password_old') ,$request->user()->password)){
           // si l'ancien mot de passe est le bon
+          // on peut enregistrer le nouveau mot de passe sous forme de hash
           $request->user()->password = Hash::make($request->input('password'));
           $request->user()->save();
           $userupdate = [

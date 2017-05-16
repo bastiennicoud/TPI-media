@@ -1,16 +1,25 @@
 <?php
 
+// -----------------------------------------------------------------------------
+// Model User
+//
+// Ce model va permettre d'intéragir avec la table users (en utilisant,
+// eloquent, l'ORM de laravel)
+// -----------------------------------------------------------------------------
+
 namespace App;
 
+// namespace importés par laravel
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+// ce model etend de la classe Authenticable (qui est une version de la classe de model classique avec des methodes en plus grffées)
 class User extends Authenticatable
 {
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Definis les attributs massivement assignables
      *
      * @var array
      */
@@ -19,7 +28,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Definis les attributs masqués si on fais une requète globale
      *
      * @var array
      */
@@ -28,7 +37,7 @@ class User extends Authenticatable
     ];
 
     /**
-    * Permet d'obtenir les posts de l'utilisateur
+    * Permet d'indiquer la relation avec les posts
     */
     public function posts()
     {
@@ -36,7 +45,7 @@ class User extends Authenticatable
     }
 
     /**
-    * Permet d'obtenir les commentaires de l'utilisateur
+    * Permet d'indiquer la relation avec les commentaires
     */
     public function comments()
     {

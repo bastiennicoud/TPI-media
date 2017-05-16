@@ -11,7 +11,7 @@
 
       <div id="postslist">
 
-        <h1>Derniers événements</h1>
+        <h1>{{ userNotification }} Evénements dans la semaine</h1>
 
         <!-- le composant post affiche les posts -->
         <post v-for="post in posts" :post="post" :key="post.id"></post>
@@ -46,7 +46,7 @@
       // charge tous les posts de l'utilisateur connecté
       getDatas () {
         // appel ajax en POST grace a Vue-Resource
-        this.$http.get('/rest/posts').then((response) => {
+        this.$http.get('/rest/postsweek').then((response) => {
 
           // si l'appel fonctionne bien, on transfere les posts recu aux composant
           this.posts = response.data
@@ -57,6 +57,12 @@
 
         })
       }
+    },
+    computed: {
+      // retourne le monbre de notifications
+      userNotification () {
+        return this.$store.getters.userNotification
+      },
     }
   }
 </script>

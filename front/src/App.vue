@@ -34,11 +34,15 @@
   import store from './stores/AppStore.js'
 
   export default {
+    // présise au composant le store a utiliser, tous les sous composants en hériteron
     store: store,
+    // nome le composant
     name: 'app',
+    // présise tous les composants utilisées par ce composant
     components: { headerLogo, navMenu, darkFooter },
+    // définis les actions a effectuer lorsque le composant est crée
     created () {
-      // lorsque le composant est crée par vue js, j'effectue un appel ajax au serveur pour savoir
+      // j'effectue un appel ajax au serveur pour savoir
       // si un utilisateur est actuellement connecté
 
       // appel ajax en POST grace a Vue-Resource
@@ -53,6 +57,7 @@
           this.$store.commit('USER_SETNAME', response.body.username)
           this.$store.commit('USER_SETPHOTO', response.body.userimage)
           this.$store.commit('USER_SETROLE', response.body.userrole)
+          this.$store.commit('USER_SETNOTIFICATION', response.body.notification)
         } else {
           // si aucun utilisateur n'est connecté
           // on mute notre state pour que tous les composant s'adapte

@@ -1,5 +1,12 @@
 <?php
 
+// -----------------------------------------------------------------------------
+// Model Poster
+//
+// Ce model va permettre d'intéragir avec la table posters (en utilisant,
+// eloquent, l'ORM de laravel)
+// -----------------------------------------------------------------------------
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +24,7 @@ class Poster extends Model
   ];
 
   /**
-  * Permet d'obtenir le post correspondant au poster
+  * Permet d'indiquer la relation avec les posts
   */
   public function user()
   {
