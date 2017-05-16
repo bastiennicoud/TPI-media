@@ -19,6 +19,7 @@
         <span></span>
         <p><strong>{{ post.hat }}</strong></p>
         <p class="infos">{{ post.content }}</p>
+        <iframe v-if="post.video" v-bind:src="post.video" frameborder="0" allowfullscreen></iframe>
       </div>
 
     </div>
@@ -234,6 +235,20 @@
 
         p{
           width: 100%;
+        }
+
+        iframe{
+          width: 100%;
+          height: 320px;
+          margin-top: 20px;
+
+          @media(max-width: $tablet){
+            height: 200px;
+          }
+
+          @media(max-width: $mobile){
+            height: 300px;
+          }
         }
 
         @media(max-width: $mobile){

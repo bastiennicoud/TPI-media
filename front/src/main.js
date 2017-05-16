@@ -94,6 +94,13 @@ const router = new VueRouter({
 
   },{
 
+    // page qui affiche son profile
+    path: '/addvideo',
+    name: 'Videos',
+    component: resolve => require(['./components/AddVideo.vue'], resolve)
+
+  },{
+
     // route appelée si l'url appelé n'existe pas
     path: '*',
     redirect: '/'
