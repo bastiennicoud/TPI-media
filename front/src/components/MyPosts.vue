@@ -11,7 +11,7 @@
 
       <div id="postslist">
 
-        <h1>Mes posts</h1>
+        <h1>Mes événements</h1>
 
         <!-- pour chaque post je crée un composant post-edit -->
         <post-edit v-for="post in posts" :post="post" :key="post.id" v-on:deletedPost="hideDeleted"></post-edit>

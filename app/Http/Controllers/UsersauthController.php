@@ -36,19 +36,19 @@ class UsersauthController extends Controller
       'password_confirmation' => 'required'
     ], [
       // messages d'erreurs pour chaque type de validation
-      'name.required' => 'Le nom d\'utilisateur n\'a pas été renseigné.',
-      'name.unique' => 'Ce nom d\'utilisateur existe déja.',
-      'name.min' => 'Le nom d\'utilisateur doit faire au moins 6 caractéres.',
-      'name.max' => 'Le nom d\'utilisateur peut faire maximum 100 caractéres.',
-      'email.required' => 'L\'email n\'a pas été renseigné.',
-      'email.email' => 'L\'email n\'est pas valide.',
-      'email.unique' => 'Cet email est déja utilisé pour un autre compte.',
-      'email.max' => 'L\'email peut faire maximum 200 caractéres.',
-      'password.required' => 'Le mot de passe n\'a pas été renseigné.',
+      'name.required' => 'Le nom d\'utilisateur n\'a pas été renseigné',
+      'name.unique' => 'Ce nom d\'utilisateur existe déjà',
+      'name.min' => 'Le nom d\'utilisateur doit faire au moins 6 caractères',
+      'name.max' => 'Le nom d\'utilisateur peut faire maximum 100 caractères',
+      'email.required' => 'L\'email n\'a pas été renseigné',
+      'email.email' => 'L\'email n\'est pas valide',
+      'email.unique' => 'Cet email est déja utilisé pour un autre compte',
+      'email.max' => 'L\'email peut faire maximum 200 caractéres',
+      'password.required' => 'Le mot de passe n\'a pas été renseigné',
       'password.confirmed' => 'Le mot de passe n\'est pas correctement confirmé',
-      'password.min' => 'Le mot de passe doit faire au moins 6 caractéres.',
-      'password.max' => 'Le mot de passe peut faire maximum 50 caractéres.',
-      'password_confirmation.required' => 'La confirmation du mot de passe n\'a pas été renseigné.'
+      'password.min' => 'Le mot de passe doit faire au moins 6 caractères',
+      'password.max' => 'Le mot de passe peut faire maximum 50 caractères',
+      'password_confirmation.required' => 'La confirmation du mot de passe n\'a pas été renseignée'
     ]);
 
     // verification de l'etat de la validation

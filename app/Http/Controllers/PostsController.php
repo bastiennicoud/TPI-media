@@ -161,7 +161,7 @@ class PostsController extends Controller
       $newpost = [
         'validation' => false,
         'messages' => [
-          'permission' => [0 => "Connectez-vous pour poster un commentaire."]
+          'permission' => [0 => "Connectez-vous pour poster un commentaire"]
         ]
       ];
       return response()->json($newpost);
@@ -174,8 +174,8 @@ class PostsController extends Controller
         'comment' => 'required|max:400'
       ], [
         // messages d'erreurs pour chaque type de validation
-        'comment.required' => "Vous n'avez pas présisé de commentaire.",
-        'comment.max' => "Un commentaire peut faire maximum 400 caractères."
+        'comment.required' => "Vous n'avez pas précisé de commentaire",
+        'comment.max' => "Un commentaire peut faire maximum 400 caractères"
       ]);
 
       // verification de l'etat de la validation

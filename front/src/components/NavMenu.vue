@@ -43,10 +43,10 @@
           <li class="onlysmall"><router-link :to="{name: 'PastPosts'}" v-on:click.native="toggle">Evénements passés</router-link></li>
           <li class="onlysmall"><span class="separator"></span></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
-          <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscrivez-vous</router-link></li>
+          <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscription</router-link></li>
           <li v-if="userNotification"><router-link :to="{name: 'Notification'}" v-on:click.native="toggle">{{ userNotification }} notifications</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouvel événement</router-link></li>
-          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes posts</router-link></li>
+          <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes événements</router-link></li>
           <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon profil</router-link></li>
           <li v-if="userConnected"><a v-on:click.prevent="disconnect">Déconnexion</a></li>
         </ul>

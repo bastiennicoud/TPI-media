@@ -11,7 +11,7 @@
 
       <div class="post-input-box">
 
-        <h1>Inscrivez vous !</h1>
+        <h1>Inscription</h1>
 
         <div class="post-datas">
 
@@ -27,17 +27,17 @@
           </div>
 
           <div class="input-group" :class="status.name">
-            <label for="username">C'est ce nom qui sera visible sur le site</label>
+            <label for="username">Ce nom sera visible sur le site</label>
             <input id="username" type="text" name="username" v-on:keyup.enter="submit" v-model="form.name" placeholder="Nom d'utilisateur">
           </div>
 
           <div class="input-group" :class="status.email">
-            <label for="email">Une adresse e-mail valide</label>
+            <label for="email">Adresse e-mail valide</label>
             <input id="email" type="email" name="email" v-on:keyup.enter="submit" v-model="form.email" placeholder="E-mail">
           </div>
 
           <div class="input-group" :class="status.password">
-            <label for="password">Mot de passe (8 caractéres minimum)</label>
+            <label for="password">Mot de passe (6 caractères minimum)</label>
             <input id="password" type="password" name="password" v-on:keyup.enter="submit" v-model="form.password" placeholder="Mot de passe">
           </div>
 

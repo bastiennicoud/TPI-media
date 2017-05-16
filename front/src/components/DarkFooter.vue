@@ -13,7 +13,7 @@
         <h3>Informations</h3>
 
         <div class="infoblock">
-          <p><strong>Nos locaux sont situés:</strong></p>
+          <p><strong>Nos locaux:</strong></p>
           <p>Rue des Cygnes 10</p>
           <p>1400 Yverdon-les-Bains</p>
         </div>

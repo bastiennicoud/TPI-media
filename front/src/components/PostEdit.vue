@@ -19,7 +19,7 @@
         <p class="infos">{{ post.content }}</p>
 
         <div class="post-edit-options">
-          <button type="button" name="editpost" v-on:click="editPost">Editer L'article</button>
+          <button type="button" name="editpost" v-on:click="editPost">Editer l'article</button>
           <button type="button" name="deletepost" v-on:click="deletePost">Supprimer l'article</button>
           <button v-if="post.online" type="button" name="deletepost" v-on:click="makeOnline">Mettre hors ligne</button>
           <button v-else type="button" name="deletepost" v-on:click="makeOnline">Mettre en ligne</button>

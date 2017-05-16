@@ -11,7 +11,7 @@
 
       <div class="post-input-box">
 
-        <h1>Connectez vous !</h1>
+        <h1>Connexion</h1>
 
         <div class="post-datas">
 
@@ -41,7 +41,7 @@
           </div>-->
 
           <div class="input-group input-group-lg">
-            <p>Vous n'avez pas de compte ? <router-link :to="{name: 'Register'}">Inscrivez-vous</router-link></p>
+            <p>Vous n'avez pas de compte ? <router-link :to="{name: 'Register'}">Inscription</router-link></p>
             <button type="button" name="submit" v-on:click="submit">Valider</button>
           </div>
 

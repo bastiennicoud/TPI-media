@@ -39,7 +39,7 @@
 
     <div class="container">
       <div class="comment-form">
-        <h2>Ajoutez un commentaire</h2>
+        <h2>Ajouter un commentaire</h2>
 
           <div v-if="failsComment == 'true'" class="errorsmessage">
             <ul>
@@ -53,11 +53,11 @@
           </div>
 
           <div class="input-group">
-            <label for="newcomment">Commentez cet evenement !</label>
+            <label for="newcomment">Commentez l'événement</label>
             <textarea id="newcomment" type="text" name="newcomment" v-model="newcomment" placeholder="Votre commentaire"></textarea>
           </div>
 
-          <p id="label-drag-n-drop">Vous pouvez ajouter une image a votre commentaire</p>
+          <p id="label-drag-n-drop">Vous pouvez ajouter une image à votre commentaire</p>
 
           <div v-if="failsImage == 'true'" class="errorsmessage">
             <ul>
@@ -75,7 +75,7 @@
 
             <template slot="clip-uploader-action">
               <div>
-                <div class="dz-message"><p>Cliquez ou déposez si vous souhaitez ajouter un image</p></div>
+                <div class="dz-message"><p>Cliquez ou déposez si vous souhaitez ajouter une image</p></div>
               </div>
             </template>
 
