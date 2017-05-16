@@ -125,7 +125,7 @@ class PostsController extends Controller
    */
   public function getpostslug(Request $request, $postSlug) {
 
-    $posts = Post::with('poster', 'comments.user')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id', 'video')->where('slug', $postSlug)->get();
+    $posts = Post::with('poster', 'comments.user', 'comments.image')->select('id', 'title', 'slug', 'date', 'hat', 'content', 'poster_id', 'video')->where('slug', $postSlug)->get();
 
     foreach ($posts as $key => $value) {
       $parts = explode(' ', $value->date);
@@ -146,7 +146,7 @@ class PostsController extends Controller
    */
   public function getcomments(Request $request, $postId) {
 
-    $comments = Comment::with('user')->select('content', 'created_at', 'user_id')->where('post_id', $postId)->get();
+    $comments = Comment::with('user', 'image')->select('content', 'created_at', 'user_id', 'image_id')->where('post_id', $postId)->get();
 
     // foreach ($posts as $key => $value) {
     //   $parts = explode(' ', $value->date);
@@ -205,6 +205,7 @@ class PostsController extends Controller
         Comment::create([
           'content' => $request->input('comment'),
           'post_id' => $request->input('post'),
+          'image_id' => $request->input('idimage'),
           'user_id' => $request->user()->id
         ]);
 
@@ -382,6 +383,7 @@ class PostsController extends Controller
           return response()->json($newpost);
         } else {
           // si la validation est réussie on peut enregistrer le nouveau post
+          $video = "https://www.youtube.com/embed/" . $request->input('video');
           Post::where('id', $postId)->update([
             'title' => $request->input('title'),
             'slug' => str_slug($request->input('title')),
@@ -390,7 +392,8 @@ class PostsController extends Controller
             'content' => $request->input('body'),
             'online' => 0,
             'user_id' => $request->user()->id,
-            'poster_id' => $request->input('idimage')
+            'poster_id' => $request->input('idimage'),
+            'video' => $video
           ]);
 
           $newpost = [

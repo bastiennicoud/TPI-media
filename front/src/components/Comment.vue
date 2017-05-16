@@ -13,6 +13,7 @@
       <p>{{comment.user.name}}</p>
       <p class="comment-content">{{comment.content}}</p>
       <p>{{comment.created_at}}</p>
+      <img v-if="comment.image" :src="comment.image.url" :alt="comment.user.name">
     </div>
 
   </div>
@@ -53,6 +54,12 @@
 
       p{
         font-size: 16px;
+      }
+
+      img{
+        height: auto;
+        width: 300px;
+        max-width: 100%;
       }
 
       .comment-content{

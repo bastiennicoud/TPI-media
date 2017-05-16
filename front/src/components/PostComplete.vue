@@ -54,6 +54,36 @@
             <textarea id="newcomment" type="text" name="newcomment" v-model="newcomment" placeholder="Votre commentaire"></textarea>
           </div>
 
+          <p id="label-drag-n-drop">Vous pouvez ajouter une image a votre commentaire</p>
+
+          <div v-if="failsImage == 'true'" class="errorsmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+          <div v-else-if="failsImage == 'false'" class="successmessage">
+            <ul>
+              <li v-for="message in messagesImage">{{ message }}</li>
+            </ul>
+          </div>
+
+          <!-- Ici j'utilise un composant permetant de faire de l'upload drag n drop -->
+          <vue-clip id="drag-n-drop" :options="options" :on-complete="complete">
+
+            <template slot="clip-uploader-action">
+              <div>
+                <div class="dz-message"><p>Cliquez ou déposez si vous souhaitez ajouter un image</p></div>
+              </div>
+            </template>
+
+            <template slot="clip-uploader-body" scope="props">
+              <div v-for="file in props.files">
+                <img v-bind:src="file.dataUrl" />
+              </div>
+            </template>
+
+          </vue-clip>
+
           <div class="input-group input-group-lg">
             <button type="button" name="submit" v-on:click="addcomment">Ajouter</button>
           </div>
@@ -83,8 +113,21 @@
         },
         comments: {},
         newcomment: "",
+        idimage: "",
         failsComment: "nosubmit",
-        messagesComment: []
+        messagesComment: [],
+        failsImage: "nosubmit",
+        messagesImage: [],
+        // les options pour le composant d'upload
+        options: {
+          url: '/rest/addcommentimage',
+          paramName: 'poster',
+          uploadMultiple: 0,
+          maxFilesize: {
+            limit: 1,
+            message: '{{ filesize }} votre ficher est trop grand {{ maxFilesize }}'
+          }
+        }
       }
     },
     created () {
@@ -101,7 +144,7 @@
           //console.log(response.data)
           this.post = response.data[0]
           this.comments = response.data[0].comments
-          //console.log(this.post)
+          console.log(response.data)
 
         }, (response) => {
 
@@ -130,7 +173,8 @@
 
           // les différentes valeurs a transmetre
           comment: this.newcomment,
-          post: this.post.id
+          post: this.post.id,
+          idimage: this.idimage
 
         }/*, {emulateJSON:true}*/).then((response) => {
 
@@ -162,6 +206,43 @@
           console.log('Le serveur est momentanément indisponible')
           this.messagesComment.push('Erreur lors de la requète.')
         })
+      },
+      // methods lorsque le composant vue clip a recu une réponse
+      complete (file, status, xhr) {
+
+        // je vide le tableau contenant les erreurs liées a l'image
+        this.messagesImage = []
+
+        // si le serveur renvoie une erreur
+        if(status == 'error'){
+          // changement de couleur pour la zonne d'erreurs
+          this.failsImage = "true"
+          // Affiche une erreur
+          this.messagesImage.push("Votre image n'a pas pu être enregistrée")
+        } else {
+          // si le serveur a bien répondu
+          // il faut convertir sa réponse en json, en effet, le composant qui se charge de faire l'upload
+          // nous retoure l'objet XHR brut de javascript, ou la reponse est sous forme de texte
+          let response = JSON.parse(xhr.responseText)
+
+          // on teste si le serveur nous renvoie que l'on a pas la permission de cette action
+          if(response.permission == false) {
+            // dans ce cas on change la couleur
+            this.failsImage = "true"
+            // liste les erreurs renvoyées par le serveur
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+          } else {
+            // dans ce cas on change la couleur
+            this.failsImage = "false"
+            // liste les erreurs renvoyées par le serveur
+            this.idimage = response.imageid
+            for(let error in response.messages){
+              this.messagesImage.push(response.messages[error][0])
+            }
+          }
+        }
       }
     }
   }
@@ -394,6 +475,23 @@
               background-color: $grisFonce;
             }
           }
+        }
+
+        #label-drag-n-drop{
+          margin: 10px 10px 0px 10px;
+          font-family: 'DIN-alternate-medium';
+          color: $placehoders;
+        }
+
+        #drag-n-drop{
+          box-sizing: border-box;
+          width: 100%;
+          margin: 10px;
+          padding: 10px;
+          text-align: center;
+          background-color: $grisClair;
+
+          border: 1px dashed $grisFonce;
         }
       }
     }

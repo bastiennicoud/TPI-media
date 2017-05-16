@@ -13,7 +13,7 @@ class Comment extends Model
    * @var array
    */
   protected $fillable = [
-      'content', 'user_id', 'post_id'
+      'content', 'user_id', 'post_id', 'image_id'
   ];
 
   /**
@@ -30,5 +30,13 @@ class Comment extends Model
   public function user()
   {
     return $this->belongsTo('App\User');
+  }
+
+  /**
+  * Permet d'obtenir l'eventuelle photo postée avec le commentaire
+  */
+  public function image()
+  {
+    return $this->belongsTo('App\Image');
   }
 }

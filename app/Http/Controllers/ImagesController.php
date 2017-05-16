@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Hash;
 use App\Poster;
+use App\Image;
 
 class ImagesController extends Controller
 {
@@ -103,6 +104,55 @@ class ImagesController extends Controller
       $userupdate = [
         'permission' => true,
         'imageid' => $poster->id,
+        'messages' => [
+          'image' => [0 => "Votre affiche a bien été ajoutée"]
+        ]
+      ];
+      return response()->json($userupdate);
+    }
+  }
+
+
+
+  /**
+   * Methode pour l'ajout d'une affiche a un evenement
+   *
+   * @return Response
+   */
+  public function addcommentimage(Request $request) {
+
+    // verfie que l'user est connecté
+    if(!Auth::check()){
+      // si il ne l'est pas
+      $userupdate = [
+        'permission' => false,
+        'messages' => [
+          'permission' => [0 => "Vous n'avez pas l'acces a cette action."]
+        ]
+      ];
+      return response()->json($userupdate);
+    } else {
+      // si il l'est
+      // création d'un hash unique pour sauvegarder l'image sans conflits
+      $hash = str_random(30);
+
+      // traitement de l'image avec la librairie intervention image
+      $manager = new ImageManager(['driver' => 'gd']);
+      $manager->make($request->file('image'))
+        ->resize(400, null, function ($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        })
+        ->save('/ressources/images/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension(), 80);
+
+
+      // on ecris dans la base de donné le chemin de la nouvele image
+      $image = Image::create(['url' => '/ressources/posters/' . $hash . '.' . $request->file('poster')->getClientOriginalExtension()]);
+
+      // on retourne au client les infos
+      $userupdate = [
+        'permission' => true,
+        'imageid' => $image->id,
         'messages' => [
           'image' => [0 => "Votre affiche a bien été ajoutée"]
         ]

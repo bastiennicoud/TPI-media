@@ -121,7 +121,7 @@
           date: "",
           hat: "",
           body: "",
-          idimage: "2",
+          idimage: "",
           video: ""
         },
         // pour gerer les différentes erreurs

@@ -85,6 +85,14 @@
           </div>
 
           <div class="input-group input-group-lg">
+            <label for="texthat">Ajoutez un vidéo ! (non requis)<br>
+              Pour l'ajout de vidéo nous utilisons le service de youtube<br>
+              Visitez <router-link :to="{name: 'Videos'}" target="_blank">cette page</router-link> pour savoir comment ajouter une vidéo.
+            </label>
+            <input id="video" type="text" v-model="form.video" name="video" placeholder="Le lien vers votre vidéo youtube">
+          </div>
+
+          <div class="input-group input-group-lg">
             <button type="button" name="button" v-on:click="submit">Editer l'article</button>
           </div>
 
@@ -113,7 +121,8 @@
           date: "",
           hat: "",
           body: "",
-          idimage: ""
+          idimage: "",
+          video: ""
         },
         // pour gerer les différentes erreurs
         failsPost: "nosubmit",
@@ -148,6 +157,7 @@
           this.form.hat = response.data[0].hat
           this.form.body = response.data[0].content
           this.form.idimage = response.data[0].poster.id
+          this.form.video = response.data[0].poster.video
 
         }, (response) => {
 
@@ -165,7 +175,8 @@
           date: this.form.date,
           hat: this.form.hat,
           body: this.form.body,
-          idimage: this.form.idimage
+          idimage: this.form.idimage,
+          video: this.form.video
 
         }/*, {emulateJSON:true}*/).then((response) => {
 
