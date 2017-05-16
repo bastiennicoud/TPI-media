@@ -28,6 +28,7 @@ Route::get('login', function () { return view('index'); });
 Route::get('register', function () { return view('index'); });
 Route::get('post', function () { return view('index'); });
 Route::get('myprofile', function () { return view('index'); });
+Route::get('notification', function () { return view('index'); });
 Route::get('addvideo', function () { return view('index'); });
 Route::get('post/{slug}', function ($slug) { return view('index'); });
 
