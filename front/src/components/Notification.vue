@@ -11,7 +11,7 @@
 
       <div id="postslist">
 
-        <h1>{{ userNotification }} Evénements dans la semaine</h1>
+        <h1>{{ userNotification }} Evénement cette semaine</h1>
 
         <!-- le composant post affiche les posts -->
         <post v-for="post in posts" :post="post" :key="post.id"></post>

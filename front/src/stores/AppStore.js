@@ -39,6 +39,9 @@ export default new Vuex.Store({
     },
     USER_SETNOTIFICATION: (state, notification) => {
       state.user.notification = notification
+    },
+    USER_CLEANNOTIFICATION: (state) => {
+      state.user.notification = 0
     }
   },
   // definition des getters

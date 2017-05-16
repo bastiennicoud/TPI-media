@@ -15,11 +15,11 @@
         <div class="infos">
           <p>Si vous souhaitez ajouter une vidéo à un de vos événements, certaines étapes sont nécessaires.</p>
           <ul>
-            <li>Premiéremment il vous faut mettre en ligne la vidéo sur Youtube, avec un compte Google.</li>
+            <li>Premièrement il vous faut mettre en ligne la vidéo sur Youtube, avec un compte Google.</li>
             <li>Une fois la vidéo en ligne, rendez-vous sur la page de visionnage de la vidéo.</li>
             <li>Sous votre vidéo, cliquez sur l'onglet "partager".</li>
             <li>Un lien va apparaitre, il va falloir récupérer uniquement la partie après le dernier / de l'url.</li>
-            <li>Exemple si vous obtenez "https://youtu.be/3lXZRGlKl_8" il vous faut récupérer "3lXZRGlKl_8".</li>
+            <li>Exemple: si vous obtenez "https://youtu.be/3lXZRGlKl_8" il vous faut récupérer "3lXZRGlKl_8".</li>
           </ul>
         </div>
 

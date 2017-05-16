@@ -96,7 +96,7 @@
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="submitemail" v-on:click="submitEmail">Modifier mon e-mail.</button>
+            <button type="button" name="submitemail" v-on:click="submitEmail">Modifier mon e-mail</button>
           </div>
 
         </div>

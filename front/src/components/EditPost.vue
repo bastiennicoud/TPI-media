@@ -37,7 +37,7 @@
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="texthat">Une accroche succinte a votre événement (env 2 lignes)</label>
+            <label for="texthat">Accroche succincte à votre événement (environ 2 lignes)</label>
             <textarea id="texthat" name="texthat" rows="3" cols="80" v-model="form.hat" placeholder="Chapeau de votre post."></textarea>
           </div>
 
@@ -45,7 +45,7 @@
 
         <div class="post-datas">
 
-          <p id="label-drag-n-drop">Ajoutez une affiche pour votre événement max 1mo</p>
+          <p id="label-drag-n-drop">Ajouter une affiche pour votre événement (max 1Mo)</p>
 
           <div v-if="failsImage == 'true'" class="errorsmessage">
             <ul>
@@ -80,20 +80,20 @@
         <div class="post-datas">
 
           <div class="input-group input-group-lg">
-            <label for="content">Une description plus détaillée de votre événement</label>
-            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="La description de votre événement"></textarea>
+            <label for="content">Description plus détaillée de votre événement</label>
+            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="Description de votre événement"></textarea>
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="texthat">Ajoutez un vidéo ! (non requis)<br>
-              Pour l'ajout de vidéo nous utilisons le service de youtube<br>
+            <label for="texthat">Ajouter un vidéo (non requis)<br>
+              Pour l'ajout de vidéo nous utilisons le service Youtube.<br>
               Visitez <router-link :to="{name: 'Videos'}" target="_blank">cette page</router-link> pour savoir comment ajouter une vidéo.
             </label>
-            <input id="video" type="text" v-model="form.video" name="video" placeholder="Le lien vers votre vidéo youtube">
+            <input id="video" type="text" v-model="form.video" name="video" placeholder="Lien vers votre vidéo Youtube">
           </div>
 
           <div class="input-group input-group-lg">
-            <button type="button" name="button" v-on:click="submit">Editer l'article</button>
+            <button type="button" name="button" v-on:click="submit">Editer l'événement</button>
           </div>
 
         </div>

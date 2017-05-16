@@ -80,7 +80,7 @@
         <div class="post-datas">
 
           <div class="input-group input-group-lg">
-            <label for="content">Une description plus détaillée de votre événement</label>
+            <label for="content">Description plus détaillée de votre événement</label>
             <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="Description de votre événement"></textarea>
           </div>
 

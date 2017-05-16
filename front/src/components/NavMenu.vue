@@ -44,11 +44,11 @@
           <li class="onlysmall"><span class="separator"></span></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Login'}" v-on:click.native="toggle">Connexion</router-link></li>
           <li v-if="!userConnected"><router-link :to="{name: 'Register'}" v-on:click.native="toggle">Inscription</router-link></li>
-          <li v-if="userNotification"><router-link :to="{name: 'Notification'}" v-on:click.native="toggle">{{ userNotification }} notifications</router-link></li>
+          <li v-if="userNotification"><router-link :to="{name: 'Notification'}" v-on:click.native="toggle">{{ userNotification }} notification</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'NewPost'}" v-on:click.native="toggle">Nouvel événement</router-link></li>
           <li v-if="userConnected && userRole == 2"><router-link :to="{name: 'MyPosts'}" v-on:click.native="toggle">Mes événements</router-link></li>
           <li v-if="userConnected"><router-link :to="{name: 'MyProfile'}" v-on:click.native="toggle">Mon profil</router-link></li>
-          <li v-if="userConnected"><a v-on:click.prevent="disconnect">Déconnexion</a></li>
+          <li v-if="userConnected"><a href="#" v-on:click.prevent="disconnect">Déconnexion</a></li>
         </ul>
       </div>
     </div>
@@ -89,6 +89,7 @@
             this.$store.commit('USER_SETNAME', '')
             this.$store.commit('USER_SETPHOTO', '')
             this.$store.commit('USER_SETROLE', '')
+            this.$store.commit('USER_CLEANNOTIFICATION')
 
             // je redirige l'utilisateur a la page d'acceuil
             this.$router.push('/')
