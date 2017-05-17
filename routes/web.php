@@ -97,7 +97,7 @@ Route::group(['prefix' => 'rest'], function () {
   Route::patch('post/{postId}', 'PostsController@editpost');
   // Suppresion d'un post existant
   Route::delete('post/{postId}', 'PostsController@deletepost');
-  // Modification d'un post esistant
+  // Passe le post en ligne ou hors ligne
   Route::patch('postonline/{postId}', 'PostsController@postonline');
 
 
