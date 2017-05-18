@@ -22,6 +22,7 @@
 // -----------------------------------------------------------------------------
 Route::get('/', function () { return view('index'); });
 Route::get('lastposts', function () { return view('index'); });
+Route::get('pastposts', function () { return view('index'); });
 Route::get('newpost', function () { return view('index'); });
 Route::get('myposts', function () { return view('index'); });
 Route::get('login', function () { return view('index'); });
