@@ -39,6 +39,7 @@
       </div>
 
       <div class="mentions">
+        <p><router-link :to="{name: 'Legals'}">Mentions légales</router-link></p>
         <p>Réalisé dans le cadre de mon travail pratique de fin d'apprentissage.</p>
         <p>Bastien Nicoud, 2017</p>
       </div>
@@ -102,6 +103,10 @@
         width: 100%;
         p{
           color: $grisClair;
+
+          a{
+            color: $grisClair;
+          }
         }
       }
 

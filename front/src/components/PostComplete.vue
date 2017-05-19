@@ -54,7 +54,7 @@
 
           <div class="input-group">
             <label for="newcomment">Commentez l'événement</label>
-            <textarea id="newcomment" type="text" name="newcomment" v-model="newcomment" placeholder="Votre commentaire"></textarea>
+            <textarea id="newcomment" name="newcomment" v-model="newcomment" placeholder="Votre commentaire"></textarea>
           </div>
 
           <p id="label-drag-n-drop">Vous pouvez ajouter une image à votre commentaire</p>

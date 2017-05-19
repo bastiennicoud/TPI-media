@@ -115,6 +115,13 @@ const router = new VueRouter({
 
   },{
 
+    // page qui affiche son profile
+    path: '/legals',
+    name: 'Legals',
+    component: resolve => require(['./components/LegalsMentions.vue'], resolve)
+
+  },{
+
     // route appelée si l'url appelé n'existe pas
     path: '*',
     redirect: '/'

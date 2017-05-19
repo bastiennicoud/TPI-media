@@ -81,11 +81,11 @@
 
           <div class="input-group input-group-lg">
             <label for="content">Description plus détaillée de votre événement</label>
-            <textarea name="content" rows="10" cols="80" v-model="form.body" placeholder="Description de votre événement"></textarea>
+            <textarea id="content" name="content" rows="10" cols="80" v-model="form.body" placeholder="Description de votre événement"></textarea>
           </div>
 
           <div class="input-group input-group-lg">
-            <label for="texthat">Ajouter un vidéo (non requis)<br>
+            <label for="video">Ajouter un vidéo (non requis)<br>
               Pour l'ajout de vidéo nous utilisons le service Youtube.<br>
               Visitez <router-link :to="{name: 'Videos'}" target="_blank">cette page</router-link> pour savoir comment ajouter une vidéo.
             </label>
