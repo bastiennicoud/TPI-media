@@ -344,7 +344,7 @@ class PostsController extends Controller
             // je lui demande d'ignorer son propre titre
             Rule::unique('posts')->ignore($postId)
           ],
-          'date' => 'required',
+          'date' => 'required|date',
           'hat' => 'required|max:200',
           'body' => 'required',
           'idimage' => 'required'
@@ -354,6 +354,7 @@ class PostsController extends Controller
           'title.unique' => "Un evenement portant ce nom existe déja.",
           'title.max' => "Le titre d'un événement peut faire au maximum 60 carctères",
           'date.required' => "Vous devez présiser un date a votre événement",
+          'date.date' => "La date rentrée n'est pas valide.",
           'hat.required' => "Vous devez présiser un chapeau a votre événement",
           'hat.max' => "Le chapeau peut faire maximum 200 caractères",
           'body.required' => "Vous devez ajouter une description a votre événement",
